@@ -15,9 +15,9 @@ class Apartment(models.Model):
 
 
 class Listing(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200,default="")
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    duration = models.IntegerField()
+    duration = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
     apartment = models.ForeignKey(Apartment)
     date = models.DateField(default=timezone.now)
@@ -41,7 +41,7 @@ class OfferPlaced(models.Model):
     date = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return "Offer  for {list_id}".format(title=self.listing.id)
+        return "Offer  for {list_id}".format(list_id=self.listing.id)
 
 
 class OfferReceived(models.Model):
@@ -52,4 +52,4 @@ class OfferReceived(models.Model):
     date = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return "Offer  for {list_id}".format(title=self.listing.id)
+        return "Offer  for {list_id}".format(list_id=self.listing.id)
