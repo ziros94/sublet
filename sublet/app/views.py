@@ -10,11 +10,25 @@ def home(request):
     return render(request, 'app/home.html')
 
 
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        new_user = User(username=username, email=email)
+        new_user.set_password(password)
+        new_user.save()
+        print "New User Registered"
+        return redirect('/sublet/')
+    else:
+        return render(request, 'app/register.html')
+
+
 def user_login(request):
     #implement login
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
@@ -61,3 +75,17 @@ def profile(request):
 
 def processOffer(request):
     return
+
+def addListing(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        price = request.POST.get('price')
+        duration = request.POST.get('duration')
+        apartment_id = request.POST.get('apartment')
+        apartment = Apartment.objects.get(pk=apartment_id)
+        new_listing = Listing(title=title, price=price, duration=duration, apartment=apartment)
+        new_listing.save()
+        return redirect('/sublet/listings')
+    else:
+        apartments = Apartment.objects.filter(user=request.user)
+        return render(request, 'app/addlisting.html', {'apartments': apartments})

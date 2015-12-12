@@ -25,6 +25,9 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
 
+    def is_owner(self, user):
+        return self.apartment.user == user
+
 
 class Booking(models.Model):
     duration = models.IntegerField()

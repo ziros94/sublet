@@ -1,0 +1,21 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <form action="{% url 'app:addListing' %}" method="post">
+        {% csrf_token %}
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+            <label for="price">Price</label>
+            <input type="text" name="price" id="price">
+            <label for="duration">Duration</label>
+            <input type="text" name="duration" id="duration">
+            <label for="apartment_sel">Select Apartment:</label>
+            <select name="apartment" id="apartment_sel">
+                {% for apartment in apartments %}
+                    <option value="{{ apartment.id }}">{{ apartment }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" />
+        </form>
+    {% endif %}
+{% endblock %}
