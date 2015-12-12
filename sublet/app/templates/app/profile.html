@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}</p>
+{% endif %}
+{% for listing in user.listings.all %}
+    <p><a href="{% url 'app:listing' listing.id %}"></a></p>
+{% endfor %}
+
+
+{% for offer in user.offers_received.all %}
+    <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>
+{% endfor %}
+
+
+{%  endblock %}
