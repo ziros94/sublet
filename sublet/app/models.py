@@ -10,6 +10,7 @@ class SubletUser(models.Model):
     last_name = models.CharField(max_length=254)
     email = models.CharField(max_length=254)
 
+
     def __str__(self):
         return self.username
 
@@ -20,6 +21,10 @@ class ApartmentOwned(models.Model):
     state = models.CharField(max_length=2)
     zip = models.CharField(max_length=5)
     user = models.ForeignKey(SubletUser, related_name='apartments_owned')
+    sqFt = models.FloatField(default=0)
+    year = models.IntegerField(default=0)
+    has_doorman = models.BooleanField(default=False)
+    min_from_subway = models.IntegerField(default=0)
 
     def __str__(self):
         return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
@@ -32,6 +37,10 @@ class ApartmentWanted(models.Model):
     state = models.CharField(max_length=2)
     zip = models.CharField(max_length=5)
     user = models.ForeignKey(SubletUser, related_name='apartments_wanted')
+    sqFt = models.FloatField(default=0)
+    year = models.IntegerField(default=0)
+    has_doorman = models.BooleanField(default=False)
+    min_from_subway = models.IntegerField(default=0)
 
     def __str__(self):
         return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
@@ -84,9 +93,12 @@ class BookingPlaced(models.Model):
     user = models.ForeignKey(SubletUser, related_name='bookings_placed')
     date = models.DateField(default=timezone.now)
 
+    def __str__(self):
+        return self.user.username + " booked " + self.listing.title
+
 
 class OfferPlaced(models.Model):
-    user_pk = models.PositiveIntegerField()
+    user_pk = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     is_accepted = models.BooleanField(default=False)
     listing = models.ForeignKey(ListingOwned)
@@ -98,7 +110,7 @@ class OfferPlaced(models.Model):
 
 
 class OfferReceived(models.Model):
-    user_pk = models.PositiveIntegerField()
+    user_pk = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     is_accepted = models.BooleanField(default=False)
     listing = models.ForeignKey(ListingOwned)

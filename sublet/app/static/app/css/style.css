@@ -1,0 +1,42 @@
+ul
+{
+    list-style-type: none;
+    padding-left: 0;
+}
+.icon-block{
+    padding: 0 15px;
+}
+.icon-block .material-icons{
+    font-size: inherit;
+}
+.intro{
+    line-height: 1.5
+}
+p{
+    font-size: 16px;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+main {
+    flex: 1 0 auto;
+}
+.page-footer{
+    padding-top:0 !important;
+}
+.header-row{
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.dropdown-content li > a, .dropdown-content li > span{
+    color: #0277bd !important;
+}
+.btn-large > a{
+    color: inherit;
+}
+.no-focus:focus{
+    background-color: transparent;
+}

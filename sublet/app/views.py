@@ -4,7 +4,7 @@ from .models import ApartmentOwned, ApartmentWanted, ListingOwned, ListingWanted
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
 
 def home(request):
     return render(request, 'app/home.html')
@@ -109,7 +109,11 @@ def addApartment(request):
         state = request.POST.get('state')
         zip = request.POST.get('zip')
         user = SubletUser.objects.get(user_pk=request.user.id)
-        apartment = ApartmentOwned(user_pk=request.user.id, street=street, city=city, state=state, zip=zip, user=user)
+        sqFt = float(request.POST.get('sqFt'))
+        year = int(request.POST.get('year'))
+        doorman = bool(request.POST.get('doorman'))
+        min_from_subway = int(request.POST.get('min'))
+        apartment = ApartmentOwned(user_pk=request.user.id, street=street, city=city, state=state, zip=zip, user=user, sqFt=sqFt, year=year, has_doorman=doorman, min_from_subway=min_from_subway)
         apartment.save()
         return redirect('/sublet/apartments')
     else:
@@ -118,16 +122,23 @@ def addApartment(request):
 def book(request):
     if request.method == 'POST':
         l = ListingOwned.objects.get(user_pk=request.POST.get('shard_id'), id=request.POST.get('list_id'))
+        print l
         a = l.apartment
         u = a.user
-        user = SubletUser(user_pk=request.user.id, username=u.username, first_name=u.first_name, last_name=u.last_name, email=u.email)
-        apartment_wanted = ApartmentWanted(user_pk=request.user.id, street=a.street, city=a.city, state=a.state, zip=a.zip, user=user)
-        listing_wanted = ListingWanted(user_pk=request.user.id, title=l.title, price=l.price, duration=l.duration, apartment=apartment_wanted)
-        booking_placed = BookingPlaced(user_pk=request.user.id, duration=listing_wanted.duration, listing=listing_wanted, user=SubletUser.objects.get(user_pk=request.user.id))
-        user.save()
+        user_pk = request.user.id
+        s_user = SubletUser(user_pk=request.user.id, username=u.username, first_name=u.first_name, last_name=u.last_name, email=u.email)
+        s_user.save()
+        apartment_wanted = ApartmentWanted(user_pk=user_pk, street=a.street, city=a.city, state=a.state, zip=a.zip, user=s_user, sqFt=a.sqFt, year=a.year, has_doorman=a.has_doorman, min_from_subway=a.min_from_subway)
         apartment_wanted.save()
+        listing_wanted = ListingWanted(user_pk=user_pk, title=l.title, price=l.price, duration=l.duration, apartment=apartment_wanted)
         listing_wanted.save()
+        booking_placed = BookingPlaced(user_pk=user_pk, duration=listing_wanted.duration, listing=listing_wanted, user=SubletUser.objects.get(user_pk=user_pk,username=request.user.username))
         booking_placed.save()
-        return redirect('/sublet/bookings')
+        print s_user, s_user.user_pk
+        print apartment_wanted, apartment_wanted.user_pk
+        print listing_wanted, listing_wanted.user_pk
+        print booking_placed, booking_placed.user_pk
+        return JsonResponse({'success': 'success'})
+        # return redirect('/sublet/bookings')
     else:
         return render(request, 'app/listings.html')

@@ -3,9 +3,37 @@
     <h2>{{ listing.title }}</h2>
     <h2>{{ listing.price }}</h2>
     <h2>{{ listing.duration }}</h2>
-    <form action="{% url 'app:book' %}" method="post">
-    {% csrf_token %}
+    {% if user.is_authenticated %}
+        <form action="{% url 'app:book' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" id="submit" class="waves-effect waves-light btn">Book!</button>
+        </form>
+        <script>
+            $('#submit').click(function(e){
+                e.preventDefault();
+                var csrftoken = getCookie('csrftoken');
+                var shard_id = {{ listing.user_pk }};
+                var list_id = {{ listing.id }};
+                $.ajax({
+                    url: "{% url 'app:book' %}",
+                    type : "POST", // http method
+                    data : {
+                        csrfmiddlewaretoken : csrftoken,
+                        shard_id: shard_id,
+                        list_id: list_id
+                    },
+                    success : function(){
+                        alert("successfully booked"); //check data sent back
+                    },
+                    // handle a non-successful response
+                    error : function(xhr,errmsg,err) {
+                        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    }
 
-    <button type="submit">Book!</button>
-    </form>
+                });
+            });
+        </script>
+    {% endif %}
+
+
 {% endblock %}
