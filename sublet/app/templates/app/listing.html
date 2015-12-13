@@ -3,7 +3,7 @@
     <h2>{{ listing.title }}</h2>
     <h2>{{ listing.price }}</h2>
     <h2>{{ listing.duration }}</h2>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not listing.is_booked %}
         <form action="{% url 'app:book' %}" method="post">
         {% csrf_token %}
         <button type="submit" id="submit" class="waves-effect waves-light btn">Book!</button>
