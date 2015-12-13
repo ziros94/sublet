@@ -1,4 +1,11 @@
 {% extends 'app/base.html' %}
 {% block content %}
     <h2>{{ listing.title }}</h2>
+    <h2>{{ listing.price }}</h2>
+    <h2>{{ listing.duration }}</h2>
+    <form action="{% url 'app:book' %}" method="post">
+    {% csrf_token %}
+
+    <button type="submit">Book!</button>
+    </form>
 {% endblock %}

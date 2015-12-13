@@ -3,12 +3,19 @@
 <h2>Sublet Portal</h2>
 {% if user.is_authenticated %}
     <p>Hello, {{ user.username }}</p>
+    <a href="{% url 'app:profile' %}">Profile</a>
     <a href="{% url 'app:logout' %}">Logout</a>
+    <br>
+    <a href="{% url 'app:addApartment' %}">Add Apartment</a>
+    <a href="{% url 'app:addListing' %}">Add Listing</a>
+
 {% else %}
     <p>Hello, guest</p>
     <a href="{% url 'app:login' %}">Login</a>
     <a href="{% url 'app:register' %}">Register</a>
 {% endif %}
+    <br>
+    <a href="{% url 'app:apartments' %}">Apartments</a>
     <a href="{% url 'app:listings' %}">Listings</a>
     <a href="{% url 'app:bookings' %}">Bookings</a>
 

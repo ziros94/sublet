@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import  Apartment, Listing, Booking, User, OfferPlaced, OfferReceived
+from .models import ApartmentOwned, ApartmentWanted, ListingOwned, ListingWanted, BookingReceived, BookingPlaced, OfferPlaced, OfferReceived, SubletUser, User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,8 @@ def register(request):
         new_user = User(username=username, email=email)
         new_user.set_password(password)
         new_user.save()
+        sublet_user = SubletUser(user_pk=new_user.id, username=new_user.username, first_name=new_user.first_name, last_name=new_user.last_name, email=new_user.email)
+        sublet_user.save()
         print "New User Registered"
         return redirect('/sublet/')
     else:
@@ -53,12 +55,17 @@ def user_logout(request):
 
 
 def listings(request):
-    all_listings = Listing.objects.all()
-    return render(request, 'app/listings.html', {'listings': all_listings})
+    listings_owned = ListingOwned.objects.all()
+    return render(request, 'app/listings.html', {'listings': listings_owned})
+
+
+def apartments(request):
+    apartments_owned = ApartmentOwned.objects.all()
+    return render(request, 'app/apartments.html', {'apartments': apartments_owned})
 
 
 def listing(request, id=None):
-    listing = get_object_or_404(Listing, pk=id)
+    listing = get_object_or_404(ListingOwned, pk=id)
     return render(request, 'app/listing.html', {'listing': listing})
 
 
@@ -71,10 +78,13 @@ def booking(request):
 
 @login_required
 def profile(request):
-    return render(request, 'app/profile.html')
+    sublet_user = SubletUser.objects.get(user_pk=request.user.id)
+    return render(request, 'app/profile.html', {'s_user': sublet_user})
+
 
 def processOffer(request):
     return
+
 
 def addListing(request):
     if request.method == 'POST':
@@ -82,10 +92,42 @@ def addListing(request):
         price = request.POST.get('price')
         duration = request.POST.get('duration')
         apartment_id = request.POST.get('apartment')
-        apartment = Apartment.objects.get(pk=apartment_id)
-        new_listing = Listing(title=title, price=price, duration=duration, apartment=apartment)
+        apartment = ApartmentOwned.objects.get(pk=apartment_id)
+        new_listing = ListingOwned(user_pk=request.user.id, title=title, price=price, duration=duration, apartment=apartment)
         new_listing.save()
         return redirect('/sublet/listings')
     else:
-        apartments = Apartment.objects.filter(user=request.user)
+        sublet_user = SubletUser.objects.get(user_pk=request.user.id)
+        apartments = ApartmentOwned.objects.filter(user=sublet_user)
         return render(request, 'app/addlisting.html', {'apartments': apartments})
+
+
+def addApartment(request):
+    if request.method == 'POST':
+        street = request.POST.get('street')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        zip = request.POST.get('zip')
+        user = SubletUser.objects.get(user_pk=request.user.id)
+        apartment = ApartmentOwned(user_pk=request.user.id, street=street, city=city, state=state, zip=zip, user=user)
+        apartment.save()
+        return redirect('/sublet/apartments')
+    else:
+        return render(request, 'app/addapartment.html')
+
+def book(request):
+    if request.method == 'POST':
+        l = ListingOwned.objects.get(user_pk=request.POST.get('shard_id'), id=request.POST.get('list_id'))
+        a = l.apartment
+        u = a.user
+        user = SubletUser(user_pk=request.user.id, username=u.username, first_name=u.first_name, last_name=u.last_name, email=u.email)
+        apartment_wanted = ApartmentWanted(user_pk=request.user.id, street=a.street, city=a.city, state=a.state, zip=a.zip, user=user)
+        listing_wanted = ListingWanted(user_pk=request.user.id, title=l.title, price=l.price, duration=l.duration, apartment=apartment_wanted)
+        booking_placed = BookingPlaced(user_pk=request.user.id, duration=listing_wanted.duration, listing=listing_wanted, user=SubletUser.objects.get(user_pk=request.user.id))
+        user.save()
+        apartment_wanted.save()
+        listing_wanted.save()
+        booking_placed.save()
+        return redirect('/sublet/bookings')
+    else:
+        return render(request, 'app/listings.html')

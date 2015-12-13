@@ -2,20 +2,16 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}</p>
-    {% for apartment in user.apartments.all %}
-        {% for listing in apartment.listings.all %}
+    <p>Hello, {{ s_user.username }}</p>
+
+    {% for apartment in s_user.apartments_owned.all %}
+        {% for listing in apartment.listings_owned.all %}
             <p><a href="{% url 'app:listing' listing.id %}">{{ listing }}</a></p>
         {% endfor %}
     {% endfor %}
     {% for offer in user.offers_received.all %}
     <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>
-{% endfor %}
+    {% endfor %}
+
 {% endif %}
-
-
-
-
-
-
 {%  endblock %}

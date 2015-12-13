@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^apartments/$', views.apartments, name='apartments'),
     url(r'^listings/$', views.listings, name='listings'),
     url(r'^listing/(?P<id>[0-9]+)/$', views.listing, name='listing'),
     url(r'^bookings/$', views.bookings, name='bookings'),
@@ -14,4 +15,6 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^process/$', views.processOffer, name='processOffer'),
     url(r'^addlisting/$', views.addListing, name='addListing'),
+    url(r'^addapartment/$', views.addApartment, name='addApartment'),
+    url(r'^book/$', views.book, name='book'),
 ]

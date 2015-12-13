@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <form action="{% url 'app:addApartment' %}" method="post">
+        {% csrf_token %}
+            <label for="street">Street</label>
+            <input type="text" name="street" id="street">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city">
+            <label for="state">State</label>
+            <input type="text" name="state" id="state">
+            <label for="zip">ZIP</label>
+            <input type="text" name="zip" id="zip">
+            <input type="submit" />
+        </form>
+    {% endif %}
+{% endblock %}
