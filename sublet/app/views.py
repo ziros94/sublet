@@ -70,7 +70,8 @@ def listing(request, id=None):
 
 
 def bookings(request):
-    return
+    bookings_placed = BookingPlaced.objects.all()
+    return render(request, 'app/bookings.html', {'bookings': bookings_placed})
 
 def booking(request):
     return
