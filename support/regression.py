@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression
 # pip install statsmodels
 # pip install patsy
 f = open("parameters.txt", "wb")
+#parse the csv file
 def regression(file_name):
     f = file_name
     data = pd.read_csv(f, sep=r"\s+")
