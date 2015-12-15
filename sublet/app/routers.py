@@ -7,9 +7,9 @@ class AuthSessRouter(object):
       return 'authsess_db'
     return None
   def db_for_read(self, model, **hints):
-    return r_w_database(model)
+    return self.r_w_database(model)
   def db_for_write(self, model, **hints):
-    return r_w_database(model)
+    return self.r_w_database(model)
 
 class ShardRouter(object):
   def database(self, user_pk):
@@ -27,7 +27,7 @@ class ShardRouter(object):
     return db
 
   def db_for_read(self, model, **hints):
-    return r_w_database(model)
+    return self.r_w_database(model)
   def db_for_write(self, model, **hints):
-    return r_w_database(model)
+    return self.r_w_database(model)
 
