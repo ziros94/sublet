@@ -82,16 +82,21 @@ def get_zip():
         zip.append(value)
     #print zip
     return zip
-    
+
 def get_user_id():
     user_id = []
     while len(user_id) < n:
-        value = gauss(3000, 3000)
-        if value > 0:
-            value = round(value, 0)
-            user_id.append(int(value))
+        value = 11
+        user_id.append(value)
     #print user_id
     return user_id
+
+def get_user_pk():
+    user_pk = []
+    while len(user_pk) < n:
+        value = 11
+        user_pk.append(int(value))
+    return user_pk
 
 
 
@@ -106,29 +111,41 @@ def main():
     state = get_state_info()
     zip = get_zip()
     user_id = get_user_id()
-    featureset = [[] for x in xrange(n+1)]
-    featureset[0]= ["street", "city", "state", "zip","price", "sqFt", "year","has_doorman","min_from_subway", "user_id"]
+    user_pk = get_user_pk()
+    featureset = [[] for x in xrange(n)]
+    #featureset[0]= ["city", "zip", "sqFt", "has_doorman","user_pk", "min_from_subway", "state","street", "year"]
     feature_entry = []
+    priceset = [[] for x in xrange(n)]
+    #priceset[0] = ["price"]
+    price_entry = []
+
     for i in range(n):
-        feature_entry.append(street[i])
-        feature_entry.append(city[i])      
-        feature_entry.append(state[i])  
+        feature_entry.append(city[i])
         feature_entry.append(zip[i])
-        feature_entry.append(price[i])
         feature_entry.append(sqFt[i])
-        feature_entry.append(year[i])
         feature_entry.append(doorMan[i])
+        feature_entry.append(user_pk[i])
         feature_entry.append(min_away[i])
-        feature_entry.append(user_id[i])
-        #featureset[i] = street[i]+" "+city[i]+" "+state[i]+ " "+zip[i]+" "+str(price[i]) +" "+str(sqFt[i]) + " " + str(year[i]) +" "+str(doorMan[i]) +" " +str(min_away[i])+" " +str(user_id[i])+ "\n")
-        featureset[i+1] = feature_entry
+        feature_entry.append(state[i])
+        feature_entry.append(street[i])
+        #feature_entry.append(user_id[i])
+        feature_entry.append(year[i])
+        featureset[i] = feature_entry
         feature_entry = []
+   
+    for i in range(n):
+        price_entry.append(price[i])
+        priceset[i] = price_entry
+        price_entry = []
+
     with open('sub_data.csv', 'w') as fp:
         a = csv.writer(fp, delimiter=',')
-         #a.write("%s %s %s %s %s %s %s %s %s %s\n"%("street", "city", "state", "zip","price", "sqFt", "year","has_doorman","min_from_subway", "user_id"))
-        #for i in range(n):
-           # a.write(street[i]+" "+city[i]+" "+state[i]+ " "+zip[i]+" "+str(price[i]) +" "+str(sqFt[i]) + " " + str(year[i]) +" "+str(doorMan[i]) +" " +str(min_away[i])+" " +str(user_id[i])+ "\n")
         a.writerows(featureset)
+        
+    with open('price_data.csv','w') as fp:
+        b = csv.writer(fp, delimiter=',')
+        b.writerows(priceset)
+        
 
 if __name__ == "__main__":
     main()
