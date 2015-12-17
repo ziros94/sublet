@@ -1,0 +1,50 @@
+[
+{
+  "fields": {
+    "city": "Stony Brook",
+    "zip": "11790",
+    "sqFt": 25.0,
+    "has_doorman": true,
+    "user_pk": 11,
+    "min_from_subway": 5,
+    "state": "NY",
+    "street": "100 Nicolls Road",
+    "user": 11,
+    "year": 1994
+  },
+  "model": "app.apartmentowned",
+  "pk": 6
+},
+{
+  "fields": {
+    "city": "New York",
+    "zip": "10012",
+    "sqFt": 5422.0,
+    "has_doorman": true,
+    "user_pk": 11,
+    "min_from_subway": 5,
+    "state": "NY",
+    "street": "44 West 4th Street",
+    "user": 11,
+    "year": 1997
+  },
+  "model": "app.apartmentowned",
+  "pk": 7
+},
+{
+  "fields": {
+    "city": "blah city",
+    "zip": "11234",
+    "sqFt": 2.0,
+    "has_doorman": true,
+    "user_pk": 11,
+    "min_from_subway": 2,
+    "state": "ny",
+    "street": "1324 Hello",
+    "user": 11,
+    "year": 2000
+  },
+  "model": "app.apartmentowned",
+  "pk": 8
+}
+]

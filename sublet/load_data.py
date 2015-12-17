@@ -1,11 +1,10 @@
-#import csv data to ApartmentOwned under user_pk =11
-#to run this, might need to pass the environmental path by pasting the following to the terminal
-#$export DJANGO_SETTINGS_MODULE=“sublet.settings"
+import django
+django.setup()
 import csv
 from app.models import ApartmentOwned
 from app.models import SubletUser
 
-user = SubletUser.objects.get(pk=11)
+user = SubletUser.objects.get(pk=2)
 with open('sub_data.csv','r') as f:
     reader = csv.reader(f)
     for row in reader:
@@ -14,3 +13,5 @@ with open('sub_data.csv','r') as f:
        	)
       
 
+#import csv data to ApartmentOwned under user_pk =11
+#to run this, might need to pass the environmental path by pasting the following to the terminal
