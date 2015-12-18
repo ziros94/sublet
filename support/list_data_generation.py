@@ -3,7 +3,7 @@ import csv
 from random import gauss
 
 def get_price(n):
-	n = n
+    n = n
     price = []
     while len(price) < n:
         value = gauss(50, 10)
@@ -53,7 +53,7 @@ def get_booked(n):
 	return is_booked
 
 def main(n):
-	n = n
+    n = n
     price = get_price(n)
     title = get_title(n)
     is_active = get_is_active(n)
