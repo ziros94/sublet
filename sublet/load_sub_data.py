@@ -3,6 +3,7 @@ django.setup()
 import csv
 from app.models import ApartmentOwned
 from app.models import SubletUser
+#ListingOwned
 
 user = SubletUser.objects.get(pk=2)
 with open('sub_data.csv','r') as f:

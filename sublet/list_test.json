@@ -1,0 +1,16 @@
+[
+{
+  "fields": {
+    "apartment": 10002,
+    "title": "Emily's first apartment is open for booking",
+    "price": "500.00",
+    "is_active": false,
+    "user_pk": 2,
+    "date": "2015-12-17",
+    "duration": 1,
+    "is_booked": false
+  },
+  "model": "app.listingowned",
+  "pk": 2
+}
+]
