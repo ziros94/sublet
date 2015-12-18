@@ -12,7 +12,8 @@ class SubletUser(models.Model):
 
 
     def __str__(self):
-        return self.username
+        return str(self.user_pk) + " " + self.username
+
 
 class ApartmentOwned(models.Model):
     user_pk = models.PositiveIntegerField()

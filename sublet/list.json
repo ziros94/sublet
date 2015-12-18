@@ -1,0 +1,44 @@
+[
+{
+  "fields": {
+    "apartment": 9,
+    "title": "new listing",
+    "price": "29.99",
+    "is_active": false,
+    "user_pk": 12,
+    "date": "2015-12-13",
+    "duration": 20,
+    "is_booked": false
+  },
+  "model": "app.listingwanted",
+  "pk": 8
+},
+{
+  "fields": {
+    "apartment": 10,
+    "title": "my apartment",
+    "price": "2900.00",
+    "is_active": false,
+    "user_pk": 12,
+    "date": "2015-12-13",
+    "duration": 2,
+    "is_booked": false
+  },
+  "model": "app.listingwanted",
+  "pk": 9
+},
+{
+  "fields": {
+    "apartment": 11,
+    "title": "testing",
+    "price": "300.00",
+    "is_active": false,
+    "user_pk": 13,
+    "date": "2015-12-15",
+    "duration": 5,
+    "is_booked": false
+  },
+  "model": "app.listingwanted",
+  "pk": 10
+}
+]
