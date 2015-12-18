@@ -3,7 +3,7 @@ import csv
 from random import gauss
 
 def get_price(n):
-	n = n
+    n = n
     price = []
     while len(price) < n:
         value = gauss(50, 10)
