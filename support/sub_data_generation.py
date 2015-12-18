@@ -1,11 +1,10 @@
-import csv
-from random import gauss
-n = 10000
-
 #same city, street, state as these are not factors in the regression model
 #these 10k are under user_pk = 2
+import csv
+from random import gauss
 
-def get_sqFT():
+def get_sqFT(n):
+    n = n
     sqFt = []
     while len(sqFt) < n:
         value = gauss(700, 100)
@@ -14,7 +13,8 @@ def get_sqFT():
     sqFt.sort(key=lambda p: float(p))
     return sqFt
 
-def get_price():
+def get_price(n):
+    n = n
     price = []
     while len(price) < n:
         value = gauss(40, 15)
@@ -23,7 +23,8 @@ def get_price():
     price.sort(key=lambda p: float(p))
     return price
 
-def get_year():
+def get_year(n):
+    n = n
     year = []
     while len(year) < n:
         value = gauss(1990, 7)
@@ -33,7 +34,8 @@ def get_year():
     year.sort(key=lambda p: float(p))
     return year
 
-def get_doorMan():
+def get_doorMan(n):
+    n = n
     frac = n/2
     #doorMan is binary
     doorMan = []
@@ -45,7 +47,8 @@ def get_doorMan():
         doorMan.append(value)
     return doorMan
 
-def get_subwayProximity():
+def get_subwayProximity(n):
+    n = n
     min_away = []
     while len(min_away) < n:
         value = gauss(20, 10)
@@ -55,55 +58,60 @@ def get_subwayProximity():
     min_away= sorted(min_away, reverse=True)
     return min_away
 
-def get_street_info():
+def get_street_info(n):
+    n = n
     street = []
     while len(street) < n:
         value = "14th str."
         street.append(value)
     return street
 
-def get_city_info():
+def get_city_info(n):
+    n = n
     city = []
     while len(city) < n:
         value = 'New York'
         city.append(value)
     return city
 
-def get_state_info():
+def get_state_info(n):
+    n = n
     state = []
     while len(state) < n:
         value = "NY"
         state.append(value)
     return state
 
-def get_zip():
+def get_zip(n):
+    n = n
     zip = []
     while len(zip) < n:
         value = "10009"
         zip.append(value)
     return zip
 
-def get_user_pk():
+def get_user_pk(n):
+    n = n
     user_pk = []
     while len(user_pk) < n:
         value = 2
         user_pk.append(int(value))
     return user_pk
 
-def main():
-    sqFt = get_sqFT()
-    year = get_year()
-    doorMan = get_doorMan()
-    min_away = get_subwayProximity()
-    street = get_street_info()
-    city = get_city_info()
-    state = get_state_info()
-    zip = get_zip()
-    user_pk = get_user_pk()
+def main(n):
+    n = n
+    sqFt = get_sqFT(n)
+    year = get_year(n)
+    doorMan = get_doorMan(n)
+    min_away = get_subwayProximity(n)
+    street = get_street_info(n)
+    city = get_city_info(n)
+    state = get_state_info(n)
+    zip = get_zip(n)
+    user_pk = get_user_pk(n)
     featureset = [[] for x in xrange(n)]
     #featureset[0]= ["city", "zip", "sqFt", "has_doorman","user_pk", "min_from_subway", "state","street", "year"]
     feature_entry = []
-
     for i in range(n):
         feature_entry.append(city[i])
         feature_entry.append(zip[i])
@@ -116,11 +124,9 @@ def main():
         feature_entry.append(year[i])
         featureset[i] = feature_entry
         feature_entry = []
-
     with open('sub_data.csv', 'w') as fp:
         a = csv.writer(fp, delimiter=',')
         a.writerows(featureset)
         
-
 if __name__ == "__main__":
-    main()
+    main(10000)
