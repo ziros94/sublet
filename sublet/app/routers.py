@@ -23,11 +23,19 @@ class ShardRouter(object):
     except AttributeError:
       db = self.database(instance.id)
     except KeyError:
-      print ("No instance found")
+      try:
+        db = self.database(int(hints['user_pk']))
+      except KeyError:
+        try:
+          db = hints['database']
+        except KeyError:
+          print "No instance in hints"
+
+    #if db: print('using database ' + db)
     return db
 
   def db_for_read(self, model, **hints):
-    return self.r_w_database(model)
+    return self.r_w_database(model, **hints)
   def db_for_write(self, model, **hints):
-    return self.r_w_database(model)
+    return self.r_w_database(model, **hints)
 

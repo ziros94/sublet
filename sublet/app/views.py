@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
 
 def home(request):
     return render(request, 'app/home.html')
@@ -55,7 +56,17 @@ def user_logout(request):
 
 
 def listings(request):
-    listings_owned = ListingOwned.objects.all()
+    listing_query = ListingOwned.objects
+    shards = get_all_shards()
+    listings_owned = None
+    for shard in shards:
+        set_db_for_sharding(listing_query, shard)
+        if listings_owned == None:
+            listings_owned = listing_query.all()
+        else:
+            listings_owned = listings_owned | listing_query.all() #merge querysets
+
+    #print('listings',listings_owned)
     return render(request, 'app/listings.html', {'listings': listings_owned})
 
 
@@ -79,7 +90,9 @@ def booking(request):
 
 @login_required
 def profile(request):
-    sublet_user = SubletUser.objects.get(user_pk=request.user.id)
+    user_query = SubletUser.objects
+    set_user_for_sharding(user_query, request.user.id)
+    sublet_user = user_query.get(user_pk=request.user.id)
     return render(request, 'app/profile.html', {'s_user': sublet_user})
 
 
