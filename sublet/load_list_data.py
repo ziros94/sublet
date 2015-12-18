@@ -1,3 +1,4 @@
+#10k row of apartment data 1-1 map to another 10k row of listing data
 import django
 import csv
 from app.models import ListingOwned
