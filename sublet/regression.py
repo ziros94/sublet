@@ -31,7 +31,7 @@ def main():
     intercept, coef_list = regression("./support/dump.csv")
     f.write(str(intercept) + " ")
     for param in coef_list:
-        param = format(param, '.2f')
+        param = format(param, '.4f')
         f.write(str(param) + " " )
  
 if __name__ == "__main__":
