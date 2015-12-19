@@ -14,4 +14,9 @@ def load_parameters(file, city):
         x =line.split(' ')
         parameters = Parameters(city = city, intercept = x[0], sqFt_coef = x[1], year_coef = x[2], has_doorman_coef = x[3], min_from_subway_coef = x[4])
         parameters.save()
-load_parameters(f, "new york")
+        
+def main():
+     load_parameters(f, "new york")
+
+if __name__ == "__main__":
+	main()
