@@ -122,3 +122,11 @@ class OfferReceived(models.Model):
 
     def __str__(self):
         return "Offer received for {list_title}".format(list_title=self.listing.title)
+
+class Parameters(models.Model):
+    city = models.CharField(max_length=200,default="")
+    intercept = models.DecimalField(max_digits=10, decimal_places=2)
+    sqFt_coef = models.DecimalField(max_digits=10, decimal_places=2)
+    year_coef = models.DecimalField(max_digits=10, decimal_places=2)
+    has_doorman_coef = models.DecimalField(max_digits=10, decimal_places=2)
+    min_from_subway_coef = models.DecimalField(max_digits=10, decimal_places=2)
