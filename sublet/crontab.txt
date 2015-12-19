@@ -1,0 +1,7 @@
+#start nano editor
+env EDITOR=nano crontab -e
+#copy the following to the editor, remember to change path
+#it will execute the fire_regression.sh every 30 minutes
+#also don't forget to chmod 755 fire_regression.sh 
+30      *       *       *       *       /your/path/to/sublet/sublet/fire_regression.sh >> /your/path/to/log/file/cron.log 2>&1
+
