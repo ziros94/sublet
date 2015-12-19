@@ -7,7 +7,7 @@ from app.models import ApartmentOwned
 django.setup()
 
 def load_list_data():
-  with open('list_data.csv','r') as f:
+  with open('./support/list_data.csv','r') as f:
     i = 20002
     reader = csv.reader(f)
     for row in reader:
@@ -27,7 +27,7 @@ def main():
 if __name__ == "__main__":
     main()
 #to view the results in file
-#./manage.py dumpdata app.ListingOwned --indent 2 > list_test.json      
+#./manage.py dumpdata app.ListingOwned --indent 2 >./support/list_test.json      
 
  
 

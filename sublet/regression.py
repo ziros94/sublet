@@ -9,7 +9,7 @@ from app.models import ApartmentOwned
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 django.setup()
-f = open("parameters.txt", "wb")
+f = open("./support/parameters.txt", "wb")
 #parse the csv file
 def regression(file_name):
     f = file_name
@@ -28,7 +28,7 @@ def regression(file_name):
     return intercept, coef_list
     
 def main():  
-    intercept, coef_list = regression("./dump.csv")
+    intercept, coef_list = regression("./support/dump.csv")
     f.write(str(intercept) + " ")
     for param in coef_list:
         param = format(param, '.2f')

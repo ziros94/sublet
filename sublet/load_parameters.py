@@ -5,7 +5,7 @@ from app.models import Parameters
 
 django.setup()
 
-f = open("parameters.txt", "r")
+f = open("./support/parameters.txt", "r")
 def load_parameters(file, city):
      f = file
      city = city

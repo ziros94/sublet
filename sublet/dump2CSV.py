@@ -19,7 +19,7 @@ def get_featureset(n,qs):
 	featureset = [[] for x in xrange(n+1)]
 	#find the latest list for the same apartment
 	i = 1
-	writer = csv.writer(open("./dump.csv", 'w'))
+	writer = csv.writer(open("./support/dump.csv", 'w'))
 	for record in qs_listing:
 		header = ['sqFt','year','has_doorman','min_from_subway','price']	
 		featureset[0] = header	

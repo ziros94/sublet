@@ -6,7 +6,7 @@ from app.models import SubletUser
 django.setup()
 
 user = SubletUser.objects.get(pk=2)
-with open('sub_data.csv','r') as f:
+with open('./support/sub_data.csv','r') as f:
     reader = csv.reader(f)
     for row in reader:
     	user.apartments_owned.create(
@@ -21,5 +21,5 @@ with open('sub_data.csv','r') as f:
        		year = row[8]
        	)
 
-#./manage.py dumpdata app.ApartmentOwned --indent 2 > apart_test.json
+#./manage.py dumpdata app.ApartmentOwned --indent 2 >./support/apart_test.json
       
