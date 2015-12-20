@@ -5,7 +5,7 @@ from app.models import SubletUser
 
 django.setup()
 
-def load_sub_data():
+def load_apart_data():
     #since the 10k apartments go with user_pk=2, which is in db3, for simplicity, just specify query in db3
     user = SubletUser.objects.using('db3').get(pk=2)
     with open('./support/apart_data.csv','r') as f:
@@ -22,7 +22,7 @@ def load_sub_data():
        		    year = row[7]
        	    )
 def main():
-    load_sub_data()
+    load_apart_data()
 
 if __name__ == "__main__":
     main()
