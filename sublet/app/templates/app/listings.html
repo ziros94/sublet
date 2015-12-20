@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 {% block content %}
     <div class="container">
-        <h2 class="center">All Apartments</h2>
+        <h2 class="center">All Listings</h2>
         <table class="bordered highlight">
             <thead>
                 <tr>
@@ -15,7 +15,7 @@
             <tbody>
             {% for listing in listings %}
             <tr>
-                <td><a href="{% url 'app:listing' listing.user_pk listing.id %}"></a>{{ listing.title }}</td>
+                <td><a href="{% url 'app:listing' listing.user_pk listing.id %}">{{ listing.title }}</a></td>
                 <td>{{ listing.price }}</td>
                 <td>{{ listing.duration }} Day{{ listing.duration|pluralize }}</td>
                 <td>{{ listing.date }}</td>
