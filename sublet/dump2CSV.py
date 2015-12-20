@@ -24,9 +24,17 @@ def get_featureset(n,qs):
 		header = ['sqFt','year','min_from_subway','price']	
 		featureset[0] = header	
 		listing_id = record[0]
+		'''
+		[1]
+		in deployment, don't know which db to query listings. Work around this using
+		listing_query = ListingOwned.objects
+		set_user_for_sharding(listing_query,user_pk=2)
+		listing = listing_query.get(pk=listing_id)
+		'''
 		listing = ListingOwned.objects.using('db3').get(pk=listing_id)
 		apartment_id = listing.apartment.id
 		'''
+		[2]
 		right now we have one fake listing map to one apartment, but in real world scenario, it is possible (though rare) that within
 		this recent 10K, there is more than one listings map to a single apartment, and this can cause heteroscedasticity to compromise
 		the unbiasness of the regression model. The way to resolve this, is to create a dictionary with "apartment_id" as its key, 
@@ -34,6 +42,7 @@ def get_featureset(n,qs):
 		It is clear that the max(listing_id) is the latest listing for a particular apartment. 
 		This step will increase processing time, and its requireness should be determined by the degree of heteroscedasticity of the current model with real-word data. 
 		In the demo stage, it is determined as unnecesary to handle this. 
+		[3] dont know which db to query Apartments? same as [1] resolve using set_user_for_sharding
 		'''
 		apart_info_qs = ApartmentOwned.objects.using('db3').filter(id=apartment_id).values_list('sqFt','year','min_from_subway')
 		apart_info_list = list(apart_info_qs[0])
@@ -46,8 +55,10 @@ def main(n):
 	n = n
 	city = "New York"
 	'''
+	[4]
 	since New York is the only city has enough data to form regression, we are only building regression model for New York in the demo stage
 	in development, each city should have its regression model
+	[5] don't know which db to query listings? same as [1] resolve it by using set_user_for_sharding
 	'''
 	qs_listing = ListingOwned.objects.using('db3').filter(apartment__city=city).values_list('id','price').order_by('id').reverse()[:n]
 	get_featureset(n, qs_listing)

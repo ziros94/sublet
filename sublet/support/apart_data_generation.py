@@ -109,7 +109,7 @@ def main(n):
         feature_entry.append(year[i])
         featureset[i] = feature_entry
         feature_entry = []
-    with open('sub_data.csv', 'w') as fp:
+    with open('apart_data.csv', 'w') as fp:
         a = csv.writer(fp, delimiter=',')
         a.writerows(featureset)
         
