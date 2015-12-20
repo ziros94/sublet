@@ -6,8 +6,8 @@ from app.models import ApartmentOwned
 
 django.setup()
 
-def load_list_data():
-  with open('./support/list_data.csv','r') as f:
+def load_listing_data():
+  with open('./support/listing_data.csv','r') as f:
     i = 30001
     reader = csv.reader(f)
     for row in reader:
@@ -21,7 +21,7 @@ def load_list_data():
        		duration = row[3],
        		is_booked = row[4])
 def main():
-  load_list_data()
+  load_listing_data()
 
 if __name__ == "__main__":
     main()
