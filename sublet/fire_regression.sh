@@ -8,5 +8,7 @@
 
 echo "cron is working"
 export DJANGO_SETTINGS_MODULE="sublet.settings"
+python /Users/yehua/testing/sublet/sublet/dump2CSV.py
 python /Users/yehua/testing/sublet/sublet/regression.py
+python /Users/yehua/testing/sublet/sublet/load_parameters.py
 
