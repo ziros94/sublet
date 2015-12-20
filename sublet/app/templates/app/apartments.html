@@ -1,6 +1,32 @@
 {% extends 'app/base.html' %}
 {% block content %}
-{% for apartment in apartments %}
-    <p>{{ apartment }}</p>
-{% endfor %}
+    <div class="container">
+        <table class="bordered highlight">
+            <thead>
+                <tr>
+                  <th data-field="street">Street</th>
+                  <th data-field="city">City</th>
+                  <th data-field="state">State</th>
+                  <th data-field="zip">ZIP</th>
+                  <th data-field="sqFt">Sq. Ft.</th>
+                  <th data-field="year">Year Built</th>
+                  <th data-field="min">Min. From Subway</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for apartment in apartments %}
+            <tr>
+                <td>{{ apartment.street }}</td>
+                <td>{{ apartment.city }}</td>
+                <td>{{ apartment.state }}</td>
+                <td>{{ apartment.zip }}</td>
+                <td>{{ apartment.sqFt }}</td>
+                <td>{{ apartment.year }}</td>
+                <td>{{ apartment.min_from_subway }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -75,7 +75,8 @@ def apartments(request):
     return render(request, 'app/apartments.html', {'apartments': apartments_owned})
 
 
-def listing(request, id=None):
+def listing(request, shard_id, list_id):
+    print shard_id, list_id
     listing = get_object_or_404(ListingOwned, pk=id)
     return render(request, 'app/listing.html', {'listing': listing})
 

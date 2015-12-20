@@ -1,6 +1,6 @@
 {% extends 'app/base.html' %}
 {% block content %}
 {% for listing in listings %}
-    <p><a href="{% url 'app:listing' listing.id %}">{{ listing.title }}</a></p>
+    <p><a href="{% url 'app:listing' listing.user_pk listing.id %}">{{ listing.title }}</a></p>
 {% endfor %}
 {% endblock %}
