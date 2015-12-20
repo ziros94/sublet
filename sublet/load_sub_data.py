@@ -5,7 +5,7 @@ from app.models import SubletUser
 
 django.setup()
 
-user = SubletUser.objects.get(pk=2)
+user = SubletUser.objects.using('db3').get(pk=2)
 with open('./support/sub_data.csv','r') as f:
     reader = csv.reader(f)
     for row in reader:

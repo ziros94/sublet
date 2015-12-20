@@ -10,12 +10,12 @@
             <label for="duration">Duration</label>
             <input type="text" name="duration" id="duration">
 
+            <label for="apartment_sel">Select Apartment:</label>
             <select name="apartment" id="apartment_sel" class="browser-default">
                 {% for apartment in apartments %}
                     <option value="{{ apartment.id }}">{{ apartment }}</option>
                 {% endfor %}
             </select>
-            <label for="apartment_sel">Select Apartment:</label>
             <br>
             <input type="submit" class="waves-effect waves-light btn"/>
         </form>

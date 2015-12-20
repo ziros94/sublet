@@ -24,7 +24,6 @@ class ApartmentOwned(models.Model):
     user = models.ForeignKey(SubletUser, related_name='apartments_owned')
     sqFt = models.FloatField(default=0)
     year = models.IntegerField(default=0)
-    has_doorman = models.BooleanField(default=False)
     min_from_subway = models.IntegerField(default=0)
 
     def __str__(self):
@@ -40,7 +39,6 @@ class ApartmentWanted(models.Model):
     user = models.ForeignKey(SubletUser, related_name='apartments_wanted')
     sqFt = models.FloatField(default=0)
     year = models.IntegerField(default=0)
-    has_doorman = models.BooleanField(default=False)
     min_from_subway = models.IntegerField(default=0)
 
     def __str__(self):
@@ -52,7 +50,6 @@ class ListingOwned(models.Model):
     title = models.CharField(max_length=200,default="")
     price = models.DecimalField(max_digits=6, decimal_places=2)
     duration = models.IntegerField(default=1)
-    is_active = models.BooleanField(default=False)
     is_booked = models.BooleanField(default=False)
     apartment = models.ForeignKey(ApartmentOwned, related_name='listings_owned')
     date = models.DateField(default=timezone.now)
@@ -69,7 +66,6 @@ class ListingWanted(models.Model):
     title = models.CharField(max_length=200,default="")
     price = models.DecimalField(max_digits=6, decimal_places=2)
     duration = models.IntegerField(default=1)
-    is_active = models.BooleanField(default=False)
     is_booked = models.BooleanField(default=False)
     apartment = models.ForeignKey(ApartmentWanted, related_name='listings_wanted')
     date = models.DateField(default=timezone.now)

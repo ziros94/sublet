@@ -8,10 +8,10 @@ django.setup()
 
 def load_list_data():
   with open('./support/list_data.csv','r') as f:
-    i = 120006
+    i = 100005
     reader = csv.reader(f)
     for row in reader:
-      #the test apartment data starts with pk_120006 to pk_130005
+      #the test apartment data starts with pk_100005 to pk_200006
       apartment = ApartmentOwned.objects.using('db3').get(pk=i)  
       i += 1
       apartment.listings_owned.create(

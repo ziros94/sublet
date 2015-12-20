@@ -24,7 +24,7 @@ def get_featureset(n,qs):
 		header = ['sqFt','year','has_doorman','min_from_subway','price']	
 		featureset[0] = header	
 		listing_id = record[0]
-		listing = ListingOwned.objects.get(pk=listing_id)
+		listing = ListingOwned.objects.using('db3').get(pk=listing_id)
 		apartment_id = listing.apartment.id
 		'''
 		right now we have one fake listing map to one apartment, but in real world scenario, it is possible (though rare) that within
@@ -35,7 +35,7 @@ def get_featureset(n,qs):
 		This step will increase processing time, and its requireness should be determined by the degree of heteroscedasticity of the current model with real-word data. 
 		In the demo stage, it is determined as unnecesary to handle this. 
 		'''
-		apart_info_qs = ApartmentOwned.objects.filter(id=apartment_id).values_list('sqFt','year','has_doorman','min_from_subway')
+		apart_info_qs = ApartmentOwned.objects.using('db3').filter(id=apartment_id).values_list('sqFt','year','has_doorman','min_from_subway')
 		apart_info_list = list(apart_info_qs[0])
 		#cast has_doorman: True to 1 and False to 0
 		apart_info_list[2] = int(apart_info_list[2])
@@ -51,7 +51,7 @@ def main(n):
 	since New York is the only city has enough data to form regression, we are only building regression model for New York in the demo stage
 	in development, each city should have its regression model
 	'''
-	qs_listing = ListingOwned.objects.filter(apartment__city=city).values_list('id','price').order_by('id').reverse()[:n]
+	qs_listing = ListingOwned.objects.using('db3').filter(apartment__city=city).values_list('id','price').order_by('id').reverse()[:n]
 	get_featureset(n, qs_listing)
 	
 if __name__ == "__main__":

@@ -36,14 +36,14 @@ def get_year(n):
 
 def get_doorMan(n):
     n = n
-    frac = n/2
+    frac = float(n)/1.78
     #doorMan is binary
     doorMan = []
     while len(doorMan) < frac:
-        value = 0
+        value = ''
         doorMan.append(value)
     while len(doorMan) < n:
-        value = 1
+        value = True
         doorMan.append(value)
     return doorMan
 
@@ -51,7 +51,7 @@ def get_subwayProximity(n):
     n = n
     min_away = []
     while len(min_away) < n:
-        value = gauss(20, 10)
+        value = gauss(30, 20)
         if value > 2:
             value = round(value, 0)
             min_away.append(int(value))
