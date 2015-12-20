@@ -133,6 +133,7 @@ def addApartment(request):
     else:
         return render(request, 'app/addapartment.html')
 
+
 def book(request):
     if request.method == 'POST':
         l = ListingOwned.objects.get(user_pk=request.POST.get('shard_id'), id=request.POST.get('list_id'))

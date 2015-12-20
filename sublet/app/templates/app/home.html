@@ -1,22 +1,21 @@
 {% extends 'app/base.html' %}
 {% block content %}
-<h2>Sublet Portal</h2>
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}</p>
-    <a href="{% url 'app:profile' %}">Profile</a>
-    <a href="{% url 'app:logout' %}">Logout</a>
-    <br>
-    <a href="{% url 'app:addApartment' %}">Add Apartment</a>
-    <a href="{% url 'app:addListing' %}">Add Listing</a>
-
-{% else %}
-    <p>Hello, guest</p>
-    <a href="{% url 'app:login' %}">Login</a>
-    <a href="{% url 'app:register' %}">Register</a>
-{% endif %}
-    <br>
-    <a href="{% url 'app:apartments' %}">Apartments</a>
-    <a href="{% url 'app:listings' %}">Listings</a>
-    <a href="{% url 'app:bookings' %}">Bookings</a>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">Hello, {% if user.is_authenticated %}{{ user.username }}{% else %}Guest {% endif %}</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">
+                {% if user.is_authenticated %}
+                    Get started by adding apartments, listings, or bookings. View any of these categories by navigating to the top left corner and clicking one
+                {% else %}Sign up or log in to help you sublet or rent an apartment{% endif %}</h5>
+        </div>
+        <div class="row center">
+            <div class="col m6 s12"><a href="{% url 'app:addApartment' %}" class="btn-large waves-effect waves-light orange">Add Apartment</a></div>
+            <div class="col m6 s12"><a href="{% url 'app:addListing' %}" class="btn-large waves-effect waves-light orange">Add Listing</a></div>
+        </div>
+        <br><br>
+    </div>
+</div>
 
 {%  endblock %}
