@@ -9,11 +9,10 @@ f = open("./support/parameters.txt", "r")
 def load_parameters(file, city):
      f = file
      city = city
-     print f
      for line in f:
         x =line.split(' ')
-        parameters = Parameters(city = city, intercept = x[0], sqFt_coef = x[1], year_coef = x[2], min_from_subway_coef = x[4])
-        parameters.save()
+        parameters = Parameters(city = city, intercept = x[0], sqFt_coef = x[1], year_coef = x[2], min_from_subway_coef = x[3])
+        parameters.save(using='default')
         
 def main():
      load_parameters(f, "new york")
