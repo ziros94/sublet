@@ -34,24 +34,11 @@ def get_year(n):
     year.sort(key=lambda p: float(p))
     return year
 
-def get_doorMan(n):
-    n = n
-    frac = float(n)/1.78
-    #doorMan is binary
-    doorMan = []
-    while len(doorMan) < frac:
-        value = ''
-        doorMan.append(value)
-    while len(doorMan) < n:
-        value = True
-        doorMan.append(value)
-    return doorMan
-
 def get_subwayProximity(n):
     n = n
     min_away = []
     while len(min_away) < n:
-        value = gauss(30, 20)
+        value = gauss(20, 20)
         if value > 2:
             value = round(value, 0)
             min_away.append(int(value))
@@ -102,7 +89,6 @@ def main(n):
     n = n
     sqFt = get_sqFT(n)
     year = get_year(n)
-    doorMan = get_doorMan(n)
     min_away = get_subwayProximity(n)
     street = get_street_info(n)
     city = get_city_info(n)
@@ -110,13 +96,12 @@ def main(n):
     zip = get_zip(n)
     user_pk = get_user_pk(n)
     featureset = [[] for x in xrange(n)]
-    #featureset[0]= ["city", "zip", "sqFt", "has_doorman","user_pk", "min_from_subway", "state","street", "year"]
+    #featureset[0]= ["city", "zip", "sqFt","user_pk", "min_from_subway", "state","street", "year"]
     feature_entry = []
     for i in range(n):
         feature_entry.append(city[i])
         feature_entry.append(zip[i])
         feature_entry.append(sqFt[i])
-        feature_entry.append(doorMan[i])
         feature_entry.append(user_pk[i])
         feature_entry.append(min_away[i])
         feature_entry.append(state[i])

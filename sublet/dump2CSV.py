@@ -21,7 +21,7 @@ def get_featureset(n,qs):
 	i = 1
 	writer = csv.writer(open("./support/dump.csv", 'w'))
 	for record in qs_listing:
-		header = ['sqFt','year','has_doorman','min_from_subway','price']	
+		header = ['sqFt','year','min_from_subway','price']	
 		featureset[0] = header	
 		listing_id = record[0]
 		listing = ListingOwned.objects.using('db3').get(pk=listing_id)
@@ -35,10 +35,8 @@ def get_featureset(n,qs):
 		This step will increase processing time, and its requireness should be determined by the degree of heteroscedasticity of the current model with real-word data. 
 		In the demo stage, it is determined as unnecesary to handle this. 
 		'''
-		apart_info_qs = ApartmentOwned.objects.using('db3').filter(id=apartment_id).values_list('sqFt','year','has_doorman','min_from_subway')
+		apart_info_qs = ApartmentOwned.objects.using('db3').filter(id=apartment_id).values_list('sqFt','year','min_from_subway')
 		apart_info_list = list(apart_info_qs[0])
-		#cast has_doorman: True to 1 and False to 0
-		apart_info_list[2] = int(apart_info_list[2])
 		apart_info_list.append(record[1])
 		featureset[i] = apart_info_list
 		i += 1

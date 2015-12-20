@@ -13,12 +13,11 @@ with open('./support/sub_data.csv','r') as f:
        		city = row[0],
        		zip = row[1],
        		sqFt = row[2],
-       		has_doorman = row[3],
-       		user_pk = row[4],
-       		min_from_subway = row[5],
-       		state = row[6],
-       		street = row[7],
-       		year = row[8]
+       		user_pk = row[3],
+       		min_from_subway = row[4],
+       		state = row[5],
+       		street = row[6],
+       		year = row[7]
        	)
 
 #./manage.py dumpdata app.ApartmentOwned --indent 2 >./support/apart_test.json

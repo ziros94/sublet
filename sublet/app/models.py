@@ -124,5 +124,4 @@ class Parameters(models.Model):
     intercept = models.DecimalField(max_digits=10, decimal_places=2)
     sqFt_coef = models.DecimalField(max_digits=10, decimal_places=2)
     year_coef = models.DecimalField(max_digits=10, decimal_places=2)
-    has_doorman_coef = models.DecimalField(max_digits=10, decimal_places=2)
     min_from_subway_coef = models.DecimalField(max_digits=10, decimal_places=2)

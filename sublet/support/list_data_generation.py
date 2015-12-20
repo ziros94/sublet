@@ -20,14 +20,6 @@ def get_title(n):
 		title.append(value)
 	return title
 
-def get_is_active(n):
-	n = n
-	false = []
-	while len(false) < n:
-		value = 0
-		false.append(value)
-	return false
-
 def get_user_pk(n):
 	n = n
 	pk = []
@@ -56,17 +48,15 @@ def main(n):
     n = n
     price = get_price(n)
     title = get_title(n)
-    is_active = get_is_active(n)
     user_pk = get_user_pk(n)
     days = duration(n)
     booked = get_booked(n)
     featureset = [[] for x in xrange(n)]
-    #featureset[0]= ["apartment", "title", "price", "is_active","user_pk", "duration", "is_booked"]
+    #featureset[0]= ["apartment", "title", "price","user_pk", "duration", "is_booked"]
     feature_entry = []
     for i in range(n):
         feature_entry.append(title[i])
         feature_entry.append(price[i])
-        feature_entry.append(is_active[i])
         feature_entry.append(user_pk[i])
         feature_entry.append(days[i])
         feature_entry.append(booked[i])

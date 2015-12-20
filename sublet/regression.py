@@ -14,7 +14,7 @@ f = open("./support/parameters.txt", "wb")
 def regression(file_name):
     f = file_name
     data = pd.read_csv(f, sep=r",")
-    feature_cols = ['sqFt','year','has_doorman','min_from_subway']
+    feature_cols = ['sqFt','year','min_from_subway']
     X = data[feature_cols]
     y = data.price
     lm = LinearRegression()

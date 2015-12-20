@@ -12,7 +12,7 @@ def load_parameters(file, city):
      print f
      for line in f:
         x =line.split(' ')
-        parameters = Parameters(city = city, intercept = x[0], sqFt_coef = x[1], year_coef = x[2], has_doorman_coef = x[3], min_from_subway_coef = x[4])
+        parameters = Parameters(city = city, intercept = x[0], sqFt_coef = x[1], year_coef = x[2], min_from_subway_coef = x[4])
         parameters.save()
         
 def main():
