@@ -16,7 +16,7 @@ def load_apart_data():
        		    zip = row[1],
        		    sqFt = row[2],
        		    user_pk = row[3],
-       	    	min_from_subway = row[4],
+                min_from_subway = row[4],
        		    state = row[5],
        		    street = row[6],
        		    year = row[7]
