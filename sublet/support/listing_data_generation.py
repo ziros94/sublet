@@ -62,7 +62,7 @@ def main(n):
         feature_entry.append(booked[i])
         featureset[i] = feature_entry
         feature_entry = []        
-    with open('list_data.csv','w') as fp:
+    with open('listing_data.csv','w') as fp:
         a = csv.writer(fp, delimiter=',')
         a.writerows(featureset)
         

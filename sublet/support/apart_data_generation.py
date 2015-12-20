@@ -38,7 +38,7 @@ def get_subwayProximity(n):
     n = n
     min_away = []
     while len(min_away) < n:
-        value = gauss(20, 20)
+        value = gauss(30, 20)
         if value > 2:
             value = round(value, 0)
             min_away.append(int(value))
