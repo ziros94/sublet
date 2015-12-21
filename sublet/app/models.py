@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class SubletUser(models.Model):
     user_pk = models.PositiveIntegerField()
-    username = models.CharField(max_length=254)
+    username = models.CharField(max_length=254, unique=True)
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
     email = models.CharField(max_length=254)
