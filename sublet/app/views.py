@@ -62,7 +62,8 @@ def listings(request):
     listings_owned = []
     for shard in shards:
         set_db_for_sharding(listing_query, shard)
-        listings_owned +=  listing_query.filter(is_booked=0)
+        listings_owned += listing_query.filter(is_booked=0)
+        print('listings',listings_owned)
 
     print('listings',listings_owned)
     return render(request, 'app/listings.html', {'listings': listings_owned})
@@ -74,8 +75,10 @@ def apartments(request):
     apartments_owned = []
 
     for shard in shards:
+        print shard
         set_db_for_sharding(apartment_query, shard)
-        apartments_owned +=  apartment_query.all().exclude(user_pk=2)
+        print apartment_query.all().exclude(user_pk=2)
+        apartments_owned += apartment_query.all().exclude(user_pk=2)
 
     # for shard in shards:
     #     set_db_for_sharding(apartment_query, shard)
@@ -173,28 +176,32 @@ def addApartment(request):
         min_from_subway = int(request.POST.get('min'))
 
         apartment = ApartmentOwned(user_pk=request.user.id, street=street, city=city, state=state, zip=zip, user=user, sqFt=sqFt, year=year, min_from_subway=min_from_subway)
-        print "4"
         apartment.save()
-        print "5"
         return redirect('/sublet/apartments/')
     else:
         return render(request, 'app/addapartment.html')
 
 def book(request):
     if request.method == 'POST':
-        l = ListingOwned.objects.get(user_pk=request.POST.get('shard_id'), id=request.POST.get('list_id'))
+
+        listing_query = ListingOwned.objects
+        set_user_for_sharding(listing_query, request.POST.get('shard_id'))
+        l = listing_query.get(pk=request.POST.get('list_id'))
+
         print l
         if not l.is_booked:
             a = l.apartment
-            u = a.user
             user_pk = request.user.id
-            s_user = SubletUser(user_pk=request.user.id, username=u.username, first_name=u.first_name, last_name=u.last_name, email=u.email)
-            s_user.save()
-            apartment_wanted = ApartmentWanted(user_pk=user_pk, street=a.street, city=a.city, state=a.state, zip=a.zip, user=s_user, sqFt=a.sqFt, year=a.year, has_doorman=a.has_doorman, min_from_subway=a.min_from_subway)
+
+            user_query = SubletUser.objects
+            set_user_for_sharding(user_query, user_pk)
+            s_user = user_query.get(user_pk=user_pk)
+    
+            apartment_wanted = ApartmentWanted(user_pk=user_pk, street=a.street, city=a.city, state=a.state, zip=a.zip, user=s_user, sqFt=a.sqFt, year=a.year, min_from_subway=a.min_from_subway)
             apartment_wanted.save()
             listing_wanted = ListingWanted(user_pk=user_pk, title=l.title, price=l.price, duration=l.duration, apartment=apartment_wanted)
             listing_wanted.save()
-            booking_placed = BookingPlaced(user_pk=user_pk, duration=listing_wanted.duration, listing=listing_wanted, user=SubletUser.objects.get(user_pk=user_pk,username=request.user.username))
+            booking_placed = BookingPlaced(user_pk=user_pk, duration=listing_wanted.duration, listing=listing_wanted, user=s_user)
             booking_placed.save()
             l.is_booked = True
             l.save()
