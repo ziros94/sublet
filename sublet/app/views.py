@@ -83,17 +83,6 @@ def apartments(request):
         set_db_for_sharding(apartment_query, shard)
         print apartment_query.all().exclude(user_pk=2)
         apartments_owned += apartment_query.all().exclude(user_pk=2)
-
-    # for shard in shards:
-    #     set_db_for_sharding(apartment_query, shard)
-    #     if apartments_owned == []:
-    #         apartments_owned = apartment_query.all().exclude(user_pk=2)
-    #         print('111apartments: ',apartments_owned)
-    #     else:
-    #         print('prev222apartments: ',apartments_owned)#merge querysets
-    #         apartments_owned = list(chain(apartments_owned, apartment_query.all().exclude(user_pk=2)))
-    #         print('222apartments: ',apartments_owned)#merge querysets
-    
     print('apartments: ',apartments_owned)
     return render(request, 'app/apartments.html', {'apartments': apartments_owned})
 
@@ -115,6 +104,7 @@ def apartment(request, shard_id, apt_id):
 
     return render(request, 'app/apartment.html', {'apartment': apartment})
 
+
 def bookings(request):
     booking_query = BookingPlaced.objects
     shards = get_all_shards()
@@ -127,10 +117,6 @@ def bookings(request):
     print('bookings',bookings_owned)
    
     return render(request, 'app/bookings.html', {'bookings': bookings_owned})
-
-def booking(request):
-    return
-
 
 @login_required
 def profile(request):
@@ -161,11 +147,7 @@ def profile(request):
 
     return render(request, 'app/profile.html', {'s_user': user, 'apartments': my_apartments, 'open_listings': open_listings, 'closed_listings': closed_listings, 'bookings': my_bookings})
 
-
-def processOffer(request):
-    return
-
-
+@login_required
 def addListing(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -195,7 +177,28 @@ def addListing(request):
             json_apartments.append([apartment.get_address(), apartment.sqFt, apartment.year, apartment.min_from_subway])
         return render(request, 'app/addlisting.html', {'apartments': apartments, 'json_apartments': json_apartments})
 
+@login_required
+def editListing(request, shard_id, list_id):
+    listing_query = ListingOwned.objects
+    set_user_for_sharding(listing_query, shard_id)
+    listing = listing_query.get(pk=list_id)
+    print(shard_id)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        price = request.POST.get('price')
+        duration = request.POST.get('duration')
+        listing.title = title
+        listing.price = price
+        listing.duration = duration
+        listing.save()
+        return redirect('/sublet/profile')
+    else:
+        apartment = listing.apartment
+        print apartment
+        json_apartment = [apartment.get_address(), apartment.sqFt, apartment.year, apartment.min_from_subway]
+        return render(request, 'app/editlisting.html', {'apartment': apartment, 'json_apartment': json_apartment, 'listing': listing})
 
+@login_required
 def addApartment(request):
     if request.method == 'POST':
         street = request.POST.get('street')
@@ -219,6 +222,8 @@ def addApartment(request):
     else:
         return render(request, 'app/addapartment.html')
 
+
+@login_required
 def book(request):
     if request.method == 'POST':
 
@@ -255,6 +260,7 @@ def book(request):
         return render(request, 'app/listings.html')
 
 
+@login_required
 def estimate(request):
     #estimate = someFunc()
     sqft = request.POST.get('sqft')

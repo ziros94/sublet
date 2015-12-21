@@ -9,6 +9,9 @@
         <form action="{% url 'app:book' %}" method="post">
         {% csrf_token %}
         <button type="submit" id="submit" class="waves-effect waves-light btn">Book!</button>
+        {% if user.id == listing.user_pk %}
+        <a href="{% url 'app:editListing' listing.user_pk listing.id %}" class="waves-effect waves-light btn">Edit</a>
+        {% endif %}
         </form>
         <script>
             $('#submit').click(function(e){

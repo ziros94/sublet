@@ -2,16 +2,6 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-{#    <p>Hello, {{ s_user.username }}</p>#}
-
-{#    {% for apartment in s_user.apartments_owned.all %}#}
-{#        {% for listing in apartment.listings_owned.all %}#}
-{#            <p><a href="{% url 'app:listing' listing.id %}">{{ listing }}</a></p>#}
-{#        {% endfor %}#}
-{#    {% endfor %}#}
-{#    {% for offer in user.offers_received.all %}#}
-{#    <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>#}
-{#    {% endfor %}#}
     <div class="row container" style="margin-top: 50px;">
         <div class="col s12">
           <ul class="tabs">
@@ -68,6 +58,7 @@
                     <td>{{ listing.price }}</td>
                     <td>{{ listing.duration }} Day{{ listing.duration|pluralize }}</td>
                     <td>{{ listing.date }}</td>
+                    <td><a href="{% url 'app:editListing' listing.user_pk listing.id %}" class="waves-effect waves-light btn">Edit Listing</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
