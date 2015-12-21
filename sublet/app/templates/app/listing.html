@@ -1,9 +1,11 @@
 {% extends 'app/base.html' %}
 {% block content %}
-    <h2>{{ listing.title }}</h2>
-    <h2>{{ listing.price }}</h2>
-    <h2>{{ listing.duration }}</h2>
-    {% if user.is_authenticated and not listing.is_booked %}
+    <div class="container center">
+        <h2>Title: {{ listing.title }}</h2>
+        <h2>Price: {{ listing.price }}</h2>
+        <h2>Duration: {{ listing.duration }}</h2>
+        <h2>Date Listed: {{ listing.duration }}</h2>
+        {% if user.is_authenticated and not listing.is_booked %}
         <form action="{% url 'app:book' %}" method="post">
         {% csrf_token %}
         <button type="submit" id="submit" class="waves-effect waves-light btn">Book!</button>
@@ -34,6 +36,9 @@
             });
         </script>
     {% endif %}
+    </div>
+
+
 
 
 {% endblock %}
