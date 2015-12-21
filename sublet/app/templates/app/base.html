@@ -24,7 +24,7 @@
                 </ul>
                 <ul class="right hide-on-med-and-down">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'app:profile' %}">{{ user.username }}</a></li>
+                    <li><a href="{% url 'app:profile' %}">{{ user.username | capfirst }}</a></li>
                     <li><a href="{% url 'app:logout' %}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'app:login' %}">Login</a></li>
@@ -36,7 +36,7 @@
                     <li><a href="{% url 'app:listings' %}">Listings</a></li>
                     <li><a href="{% url 'app:bookings' %}">Bookings</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'app:profile' %}">{{ user.username }}</a></li>
+                    <li><a href="{% url 'app:profile' %}">{{ user.username | capfirst }}</a></li>
                     <li><a href="{% url 'app:logout' %}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'app:login' %}">Login</a></li>
