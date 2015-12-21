@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^process/$', views.processOffer, name='processOffer'),
     url(r'^addlisting/$', views.addListing, name='addListing'),
     url(r'^addapartment/$', views.addApartment, name='addApartment'),
+    url(r'^apartment/(?P<shard_id>[0-9]+)/(?P<apt_id>[0-9]+)/$', views.apartment, name='apartment'),
     url(r'^book/$', views.book, name='book'),
     url(r'^estimate/$', views.estimate, name='estimate'),
 ]

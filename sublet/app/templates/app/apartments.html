@@ -5,10 +5,7 @@
         <table class="bordered highlight">
             <thead>
                 <tr>
-                  <th data-field="street">Street</th>
-                  <th data-field="city">City</th>
-                  <th data-field="state">State</th>
-                  <th data-field="zip">ZIP</th>
+                  <th data-field="address">Address</th>
                   <th data-field="sqFt">Sq. Ft.</th>
                   <th data-field="year">Year Built</th>
                   <th data-field="min">Min. From Subway</th>
@@ -18,10 +15,7 @@
             <tbody>
             {% for apartment in apartments %}
             <tr>
-                <td>{{ apartment.street }}</td>
-                <td>{{ apartment.city }}</td>
-                <td>{{ apartment.state }}</td>
-                <td>{{ apartment.zip }}</td>
+                <td><a href="{% url 'app:apartment' apartment.user_pk apartment.id %}">{{ apartment.get_address }}</a></td>
                 <td>{{ apartment.sqFt }}</td>
                 <td>{{ apartment.year }}</td>
                 <td>{{ apartment.min_from_subway }}</td>

@@ -104,6 +104,14 @@ def listing(request, shard_id, list_id):
     return render(request, 'app/listing.html', {'listing': listing})
 
 
+def apartment(request, shard_id, apt_id):
+    print(shard_id)
+    apt_query = ApartmentOwned.objects
+    set_user_for_sharding(apt_query, shard_id)
+    apartment = apt_query.get(pk=apt_id)
+
+    return render(request, 'app/apartment.html', {'apartment': apartment})
+
 def bookings(request):
     booking_query = BookingPlaced.objects
     shards = get_all_shards()
