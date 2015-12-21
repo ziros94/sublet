@@ -11,14 +11,13 @@ def set_user_for_sharding(query_set, user_pk):
   if query_set._hints == None:
     query_set._hints = {'user_pk' : user_pk }
   else:
-    query_set._hints['user_pk'] = user_pk
+     query_set._hints = {'user_pk' : user_pk }
 
 def set_db_for_sharding(query_set, db):
   if query_set._hints == None:
     query_set._hints = {'database' : db }
   else:
-    query_set._hints['database'] = db
-
+    query_set._hints = {'database' : db }
 def get_all_shards():
    shards = []
    for x in range(NUM_PHYSICAL_SHARDS):
