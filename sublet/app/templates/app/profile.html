@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-    <p>Hello, {{ s_user.username }}</p>
+{#    <p>Hello, {{ s_user.username }}</p>#}
 
 {#    {% for apartment in s_user.apartments_owned.all %}#}
 {#        {% for listing in apartment.listings_owned.all %}#}
@@ -12,6 +12,121 @@
 {#    {% for offer in user.offers_received.all %}#}
 {#    <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>#}
 {#    {% endfor %}#}
+    <div class="row container" style="margin-top: 50px;">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3"><a class="active" href="#test1">Apartments</a></li>
+            <li class="tab col s3"><a href="#test2">Open Listings</a></li>
+            <li class="tab col s3"><a href="#test3">Closed Listings</a></li>
+            <li class="tab col s3"><a href="#test4">Bookings</a></li>
+          </ul>
+        </div>
+        <div id="test1" class="col s12 container" style="margin-top: 10px;">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                      <th data-field="street">Street</th>
+                      <th data-field="city">City</th>
+                      <th data-field="state">State</th>
+                      <th data-field="zip">ZIP</th>
+                      <th data-field="sqFt">Sq. Ft.</th>
+                      <th data-field="year">Year Built</th>
+                      <th data-field="min">Min. From Subway</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for apartment in my_apartments %}
+                    <tr>
+                        <td>{{ apartment.street }}</td>
+                        <td>{{ apartment.city }}</td>
+                        <td>{{ apartment.state }}</td>
+                        <td>{{ apartment.zip }}</td>
+                        <td>{{ apartment.sqFt }}</td>
+                        <td>{{ apartment.year }}</td>
+                        <td>{{ apartment.min_from_subway }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="test2" class="col s12 container" style="margin-top: 10px;">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                      <th data-field="title">Title</th>
+                      <th data-field="price">Price</th>
+                      <th data-field="duration">Duration</th>
+                      <th data-field="date">Date Listed</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for listing in open_listings %}
+                <tr>
+                    <td><a href="{% url 'app:listing' listing.user_pk listing.id %}">{{ listing.title }}</a></td>
+                    <td>{{ listing.price }}</td>
+                    <td>{{ listing.duration }} Day{{ listing.duration|pluralize }}</td>
+                    <td>{{ listing.date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="test3" class="col s12 container" style="margin-top: 10px;">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                      <th data-field="title">Title</th>
+                      <th data-field="price">Price</th>
+                      <th data-field="duration">Duration</th>
+                      <th data-field="date">Date Listed</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for listing in closed_listings %}
+                <tr>
+                    <td><a href="{% url 'app:listing' listing.user_pk listing.id %}">{{ listing.title }}</a></td>
+                    <td>{{ listing.price }}</td>
+                    <td>{{ listing.duration }} Day{{ listing.duration|pluralize }}</td>
+                    <td>{{ listing.date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="test4" class="col s12 container" style="margin-top: 10px;">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                        <th data-field="booker">Booker</th>
+                        <th data-field="title">Title</th>
+                        <th data-field="price">Price</th>
+                        <th data-field="duration">Duration</th>
+                        <th data-field="date">Date Booked</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.user.username }}</td>
+                    <td>{{ booking.listing.title }}</td>
+                    <td>{{ booking.listing.price }}</td>
+                    <td>{{ booking.duration }} Day{{ listing.duration|pluralize }}</td>
+                    <td>{{ booking.date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
 
 {% endif %}
 {%  endblock %}

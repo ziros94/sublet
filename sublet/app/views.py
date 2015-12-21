@@ -128,7 +128,7 @@ def profile(request):
     #find all my apts
     apt_query = ApartmentOwned.objects
     set_user_for_sharding(apt_query, request.user.id)
-    my_apartment = apt_query.filter(user=user)
+    my_apartments = apt_query.filter(user=user)
 
     #find all my current open listing
     listing_query = ListingOwned.objects
@@ -146,7 +146,7 @@ def profile(request):
     my_bookings = bookings_query.filter(user=user)
     print  ("my_bookings:" , my_bookings)
 
-    return render(request, 'app/profile.html', {'s_user': user})
+    return render(request, 'app/profile.html', {'s_user': user, 'apartments': my_apartments, 'open_listings': open_listings, 'closed_listings': closed_listings, 'bookings': my_bookings})
 
 
 def processOffer(request):

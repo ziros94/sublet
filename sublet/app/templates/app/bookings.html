@@ -1,6 +1,29 @@
 {% extends 'app/base.html' %}
 {% block content %}
-    {% for booking in bookings %}
-    <p>{{ booking }}</p>
-{% endfor %}
+    <div class="container">
+        <h2 class="center">All Bookings</h2>
+        <table class="bordered highlight">
+            <thead>
+                <tr>
+                    <th data-field="booker">Booker</th>
+                    <th data-field="title">Title</th>
+                    <th data-field="price">Price</th>
+                    <th data-field="duration">Duration</th>
+                    <th data-field="date">Date Booked</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.listing.title }}</td>
+                <td>{{ booking.listing.price }}</td>
+                <td>{{ booking.duration }} Day{{ listing.duration|pluralize }}</td>
+                <td>{{ booking.date }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
