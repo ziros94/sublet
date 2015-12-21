@@ -8,6 +8,9 @@ from django.http import JsonResponse
 from sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
 from itertools import chain
 from django.core.serializers.json import DjangoJSONEncoder
+from support.estimated_price import getEstimatedPrice
+
+
 import json
 def home(request):
     return render(request, 'app/home.html')
@@ -257,5 +260,6 @@ def estimate(request):
     sqft = request.POST.get('sqft')
     year = request.POST.get('year')
     min_from_subway = request.POST.get('min_from_subway')
-    print sqft, year, min_from_subway
+    price = getEstimatedPrice(sqft, year,min_from_subway )
+    print sqft, year, min_from_subway, price
     return JsonResponse({'success': "hello"})
