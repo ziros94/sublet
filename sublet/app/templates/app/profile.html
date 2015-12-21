@@ -4,14 +4,14 @@
 {% if user.is_authenticated %}
     <p>Hello, {{ s_user.username }}</p>
 
-    {% for apartment in s_user.apartments_owned.all %}
-        {% for listing in apartment.listings_owned.all %}
-            <p><a href="{% url 'app:listing' listing.id %}">{{ listing }}</a></p>
-        {% endfor %}
-    {% endfor %}
-    {% for offer in user.offers_received.all %}
-    <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>
-    {% endfor %}
+{#    {% for apartment in s_user.apartments_owned.all %}#}
+{#        {% for listing in apartment.listings_owned.all %}#}
+{#            <p><a href="{% url 'app:listing' listing.id %}">{{ listing }}</a></p>#}
+{#        {% endfor %}#}
+{#    {% endfor %}#}
+{#    {% for offer in user.offers_received.all %}#}
+{#    <p><a href="{% url 'app:listing' offer.listing.id %}">{{ offer }}</a></p>#}
+{#    {% endfor %}#}
 
 {% endif %}
 {%  endblock %}
