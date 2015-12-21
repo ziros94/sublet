@@ -5,5 +5,10 @@
         <h2>Sq. Ft.: {{ apartment.sqFt }}</h2>
         <h2>Year Built: {{ apartment.year }}</h2>
         <h2>Min. From Subway: {{ apartment.min_from_subway }}</h2>
+        <h2>Listings:</h2>
+        {%  for listing in apartment.listings_owned.all %}
+        <h3><a href="{% url 'app:listing' listing.user_pk listing.id %}">{{ listing.title }}</a></h3>
+        {% endfor %}
     </div>
+
 {% endblock %}

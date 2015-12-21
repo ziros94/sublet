@@ -13,7 +13,7 @@
 
                 <div class="row">
                     <div class="offset-s3 col s6">
-                        <label for="price">Price</label>
+                        <label for="price">Price Per Day</label>
                         <input type="text" name="price" id="price">
                     </div>
                     <div class="col s3">
@@ -75,8 +75,10 @@
                     year : year,
                     min_from_subway : min_from_subway
                 },
-                success : function(){
-                    alert("success"); //check data sent back
+                success : function(json){
+                    var price = json['success'];
+                    $("#price").val(price);
+{#                    alert(price); //check data sent back#}
                 },
                 // handle a non-successful response
                 error : function(xhr,errmsg,err) {

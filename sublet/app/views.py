@@ -262,4 +262,4 @@ def estimate(request):
     min_from_subway = request.POST.get('min_from_subway')
     price = getEstimatedPrice(sqft, year,min_from_subway )
     print sqft, year, min_from_subway, price
-    return JsonResponse({'success': "hello"})
+    return JsonResponse({'success': price})
