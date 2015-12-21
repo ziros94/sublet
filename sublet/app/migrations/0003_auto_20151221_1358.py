@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0006_auto_20151213_1441'),
+        ('app', '0002_auto_20151221_1358'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='listingowned',
-            name='is_booked',
-            field=models.BooleanField(default=False),
+            name='is_active',
+            field=models.BooleanField(default=True),
         ),
         migrations.AddField(
             model_name='listingwanted',
-            name='is_booked',
-            field=models.BooleanField(default=False),
+            name='is_active',
+            field=models.BooleanField(default=True),
         ),
     ]

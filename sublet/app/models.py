@@ -55,6 +55,7 @@ class ListingOwned(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     duration = models.IntegerField(default=1)
     is_booked = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     apartment = models.ForeignKey(ApartmentOwned, related_name='listings_owned')
     date = models.DateField(default=timezone.now)
 
@@ -71,6 +72,7 @@ class ListingWanted(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     duration = models.IntegerField(default=1)
     is_booked = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     apartment = models.ForeignKey(ApartmentWanted, related_name='listings_wanted')
     date = models.DateField(default=timezone.now)
 

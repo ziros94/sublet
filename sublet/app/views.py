@@ -66,7 +66,7 @@ def listings(request):
     listings_owned = []
     for shard in shards:
         set_db_for_sharding(listing_query, shard)
-        listings_owned += listing_query.filter(is_booked=0)
+        listings_owned += listing_query.filter(is_booked=0, is_active=1)
         print('listings',listings_owned)
 
     print('listings',listings_owned)
@@ -132,11 +132,11 @@ def profile(request):
     #find all my current open listing
     listing_query = ListingOwned.objects
     set_user_for_sharding(listing_query, request.user.id)
-    open_listings = listing_query.filter(user_pk=request.user.id, is_booked = 0)
+    open_listings = listing_query.filter(user_pk=request.user.id, is_booked = 0, is_active=1)
     print  ("open_listings:" , open_listings)
 
     #find all my closed listing
-    closed_listings = listing_query.filter(user_pk=request.user.id, is_booked = 1)
+    closed_listings = listing_query.filter(user_pk=request.user.id, is_booked = 1, is_active=1)
     print  ("closed_listings:" , closed_listings)
 
     #find all my bookings
@@ -232,7 +232,7 @@ def book(request):
         l = listing_query.get(pk=request.POST.get('list_id'))
 
         print l
-        if not l.is_booked:
+        if (not l.is_booked) and l.is_active:
             a = l.apartment
             user_pk = request.user.id
 
@@ -247,6 +247,7 @@ def book(request):
             booking_placed = BookingPlaced(user_pk=user_pk, duration=listing_wanted.duration, listing=listing_wanted, user=s_user)
             booking_placed.save()
             l.is_booked = True
+            l.is_active = False
             l.save()
             print s_user, s_user.user_pk
             print apartment_wanted, apartment_wanted.user_pk
