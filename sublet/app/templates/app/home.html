@@ -3,7 +3,7 @@
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <br><br>
-        <h1 class="header center orange-text">Hello, {% if user.is_authenticated %}{{ user.username }}{% else %}Guest {% endif %}</h1>
+        <h1 class="header center green-text text-darken-1">Hello, {% if user.is_authenticated %}{{ user.username }}{% else %}Guest {% endif %}</h1>
         <div class="row center">
             <h5 class="header col s12 light">
                 {% if user.is_authenticated %}
@@ -11,8 +11,8 @@
                 {% else %}Sign up or log in to help you sublet or rent an apartment{% endif %}</h5>
         </div>
         <div class="row center">
-            <div class="col m6 s12"><a href="{% url 'app:addApartment' %}" class="btn-large waves-effect waves-light orange">Add Apartment</a></div>
-            <div class="col m6 s12"><a href="{% url 'app:addListing' %}" class="btn-large waves-effect waves-light orange">Add Listing</a></div>
+            <div class="col m6 s12"><a href="{% url 'app:addApartment' %}" class="btn-large waves-effect waves-light green darken-1">Add Apartment</a></div>
+            <div class="col m6 s12"><a href="{% url 'app:addListing' %}" class="btn-large waves-effect waves-light green darken-1">Add Listing</a></div>
         </div>
         <br><br>
     </div>
