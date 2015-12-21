@@ -123,8 +123,30 @@ def booking(request):
 def profile(request):
     user_query = SubletUser.objects
     set_user_for_sharding(user_query, request.user.id)
-    sublet_user = user_query.get(user_pk=request.user.id)
-    return render(request, 'app/profile.html', {'s_user': sublet_user})
+    user = user_query.get(user_pk=request.user.id)
+
+    #find all my apts
+    apt_query = ApartmentOwned.objects
+    set_user_for_sharding(apt_query, request.user.id)
+    my_apartment = apt_query.filter(user=user)
+
+    #find all my current open listing
+    listing_query = ListingOwned.objects
+    set_user_for_sharding(listing_query, request.user.id)
+    open_listings = listing_query.filter(user_pk=request.user.id, is_booked = 0)
+    print  ("open_listings:" , open_listings)
+
+    #find all my closed listing
+    closed_listings = listing_query.filter(user_pk=request.user.id, is_booked = 1)
+    print  ("closed_listings:" , closed_listings)
+
+    #find all my bookings
+    bookings_query = BookingPlaced.objects
+    set_user_for_sharding(bookings_query, request.user.id)
+    my_bookings = bookings_query.filter(user=user)
+    print  ("my_bookings:" , my_bookings)
+
+    return render(request, 'app/profile.html', {'s_user': user})
 
 
 def processOffer(request):
