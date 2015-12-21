@@ -55,7 +55,8 @@
             var min_from_subway;
             for (var i=0; i<apartments.length; i++ ){
                 console.log(apartments[i]);
-                console.log( $.trim($("#apartment_sel").text()));
+                var trim_text = $.trim($("#apartment_sel").text());
+                console.log( trim_text );
                 if (apartments[i][0] == $.trim($("#apartment_sel").text())){
                     console.log("Success");
                     sqft = apartments[i][1];
