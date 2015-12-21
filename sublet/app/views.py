@@ -129,7 +129,7 @@ def profile(request):
     apt_query = ApartmentOwned.objects
     set_user_for_sharding(apt_query, request.user.id)
     my_apartments = apt_query.filter(user=user)
-
+    print ("my apts:" , my_apartments)
     #find all my current open listing
     listing_query = ListingOwned.objects
     set_user_for_sharding(listing_query, request.user.id)
