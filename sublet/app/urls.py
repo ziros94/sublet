@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^addlisting/$', views.addListing, name='addListing'),
     url(r'^addapartment/$', views.addApartment, name='addApartment'),
     url(r'^book/$', views.book, name='book'),
+    url(r'^estimate/$', views.estimate, name='estimate'),
 ]

@@ -4,23 +4,85 @@
         <div class="container center">
             <form action="{% url 'app:addListing' %}" method="post">
             {% csrf_token %}
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title">
-                <label for="price">Price</label>
-                <input type="text" name="price" id="price">
-                <label for="duration">Duration</label>
-                <input type="text" name="duration" id="duration">
+                <div class="row">
+                    <div class="offset-s3 col s6">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title">
+                    </div>
+                </div>
 
-                <label for="apartment_sel">Select Apartment:</label>
-                <select name="apartment" id="apartment_sel" class="browser-default">
-                    {% for apartment in apartments %}
-                        <option value="{{ apartment.id }}">{{ apartment }}</option>
-                    {% endfor %}
-                </select>
+                <div class="row">
+                    <div class="offset-s3 col s6">
+                        <label for="price">Price</label>
+                        <input type="text" name="price" id="price">
+                    </div>
+                    <div class="col s3">
+                        <button class="waves-effect waves-light btn" id="estimate" type="button">Suggested Price</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-s3 col s6">
+                        <label for="duration">Duration</label>
+                        <input type="text" name="duration" id="duration">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-s3 col s6">
+                        <label for="apartment_sel">Select Apartment:</label>
+                        <select name="apartment" id="apartment_sel" class="browser-default">
+                            {% for apartment in apartments %}
+                                <option value="{{ apartment.id }}">{{ apartment }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
                 <br>
                 <input type="submit" class="waves-effect waves-light btn"/>
             </form>
         </div>
     {% endif %}
+    <script>
+        $('#estimate').click(function(e){
+            e.preventDefault();
+            var csrftoken = getCookie('csrftoken');
+{#                var apartments = {{ apartments_json|safe }};#}
+{#                for (apartment in apartments)#}
+{#                console.log( $.trim($("#apartment_sel").text()));#}
 
+            var apartments = {{ json_apartments|safe }};
+            var sqft;
+            var year;
+            var min_from_subway;
+            for (var i=0; i<apartments.length; i++ ){
+                console.log(apartments[i]);
+                console.log( $.trim($("#apartment_sel").text()));
+                if (apartments[i][0] == $.trim($("#apartment_sel").text())){
+                    console.log("Success");
+                    sqft = apartments[i][1];
+                    year = apartments[i][2];
+                    min_from_subway = apartments[i][3];
+                    break;
+                }
+            }
+            console.log(sqft,year,min_from_subway);
+            $.ajax({
+                url: "{% url 'app:estimate' %}",
+                type : "POST", // http method
+                data : {
+                    csrfmiddlewaretoken : csrftoken,
+                    sqft : sqft,
+                    year : year,
+                    min_from_subway : min_from_subway
+                },
+                success : function(){
+                    alert("success"); //check data sent back
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+
+            });
+        });
+    </script>
 {% endblock %}

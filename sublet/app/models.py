@@ -29,6 +29,8 @@ class ApartmentOwned(models.Model):
     def __str__(self):
         return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
 
+    def get_address(self):
+        return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
 
 class ApartmentWanted(models.Model):
     user_pk = models.PositiveIntegerField()
@@ -44,6 +46,8 @@ class ApartmentWanted(models.Model):
     def __str__(self):
         return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
 
+    def get_address(self):
+        return "{street},{city},{state} {zip}".format(street=self.street, city=self.city, state=self.state, zip=self.zip)
 
 class ListingOwned(models.Model):
     user_pk = models.PositiveIntegerField()

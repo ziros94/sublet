@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
 from itertools import chain
-
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 def home(request):
     return render(request, 'app/home.html')
 
@@ -95,6 +96,7 @@ def apartments(request):
 
 
 def listing(request, shard_id, list_id):
+    print(shard_id)
     listing_query = ListingOwned.objects
     set_user_for_sharding(listing_query, shard_id)
     listing = listing_query.get(pk=list_id)
@@ -177,7 +179,10 @@ def addListing(request):
      
 
         apartments = apt_query.filter(user=user)
-        return render(request, 'app/addlisting.html', {'apartments': apartments})
+        json_apartments = []
+        for apartment in apartments:
+            json_apartments.append([apartment.get_address(), apartment.sqFt, apartment.year, apartment.min_from_subway])
+        return render(request, 'app/addlisting.html', {'apartments': apartments, 'json_apartments': json_apartments})
 
 
 def addApartment(request):
@@ -237,3 +242,12 @@ def book(request):
             # return redirect('/sublet/bookings')
     else:
         return render(request, 'app/listings.html')
+
+
+def estimate(request):
+    #estimate = someFunc()
+    sqft = request.POST.get('sqft')
+    year = request.POST.get('year')
+    min_from_subway = request.POST.get('min_from_subway')
+    print sqft, year, min_from_subway
+    return JsonResponse({'success': "hello"})
