@@ -73,7 +73,6 @@ def apartments(request):
     shards = get_all_shards()
     apartments_owned = []
 
-
     for shard in shards:
         set_db_for_sharding(apartment_query, shard)
         apartments_owned +=  apartment_query.all().exclude(user_pk=2)
@@ -93,8 +92,10 @@ def apartments(request):
 
 
 def listing(request, shard_id, list_id):
-    print shard_id, list_id
-    listing = get_object_or_404(ListingOwned, pk=list_id)
+    listing_query = ListingOwned.objects
+    set_user_for_sharding(listing_query, shard_id)
+    listing = listing_query.get(pk=list_id)
+
     return render(request, 'app/listing.html', {'listing': listing})
 
 
