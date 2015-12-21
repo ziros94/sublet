@@ -31,7 +31,7 @@
                         <label for="apartment_sel">Select Apartment:</label>
                         <select name="apartment" id="apartment_sel" class="browser-default">
                             {% for apartment in apartments %}
-                                <option value="{{ apartment.id }}">{{ apartment }}</option>
+                                <option data-val="{{ apartment.get_address }}" value="{{ apartment.id }}">{{ apartment }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -55,8 +55,9 @@
             var min_from_subway;
             for (var i=0; i<apartments.length; i++ ){
                 console.log(apartments[i]);
-                console.log( $.trim($("#apartment_sel").text()));
-                if (apartments[i][0] == $.trim($("#apartment_sel").text())){
+                var trim_text =  ($("#apartment_sel option:selected").text()).trim();
+                console.log( trim_text );
+                if (apartments[i][0] == trim_text){
                     console.log("Success");
                     sqft = apartments[i][1];
                     year = apartments[i][2];
