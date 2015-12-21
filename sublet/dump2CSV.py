@@ -17,7 +17,7 @@ def get_featureset(n,qs):
     n = n
     qs_listing = qs
     featureset = [[] for x in xrange(n+1)]
-    #find the latest list for the same apartment
+    #find matching apartment through listing
     i = 1
     writer = csv.writer(open("./support/dump.csv", 'w'))
     for record in qs_listing:
