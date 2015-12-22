@@ -1,4 +1,3 @@
-from sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
 import sys
 import os
 import django
@@ -8,6 +7,7 @@ sys.path.append(project_path)
 os.environ["DJANGO_SETTINGS_MODULE"] = "sublet.settings"
 django.setup()
 from app.models import ApartmentOwned, ListingOwned, SubletUser, User, ApartmentWanted, ListingWanted, BookingPlaced
+from app.sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
 from random import gauss, choice
 import csv
 from django.db.models import Q
@@ -211,4 +211,4 @@ def main(num):
     # editApartments()
     # editListings(num)
 if __name__ == '__main__':
-    main(2000)
+    main(10000)

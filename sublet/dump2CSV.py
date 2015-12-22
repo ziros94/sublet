@@ -2,17 +2,17 @@ __author__      = "Emily"
 #sklearn regression module takes in multinamentional array as the featureset, 
 #which can be easily transformed through a csv with existing functions.
 #in order to suffice that, we use this script to export Django queryset to csv. 
-import sys
-import os
-import django
 import csv
+import os
+import sys
+
+import django
+
 cur = os.path.dirname(os.path.realpath('__file__'))
 sys.path.append(cur)
 os.environ["DJANGO_SETTINGS_MODULE"] = "sublet.settings"
 django.setup()
-from app.models import ListingOwned,ApartmentOwned
-from app.sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
-from app.population import getListings
+from support.population import getListings
 
 
 def get_featureset(n, listings):
