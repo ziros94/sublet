@@ -1,17 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import ApartmentOwned, ApartmentWanted, ListingOwned, ListingWanted, BookingReceived, BookingPlaced, OfferPlaced, OfferReceived, SubletUser, User
+from .models import ApartmentOwned, ApartmentWanted, ListingOwned, ListingWanted, BookingPlaced, SubletUser, User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
-from itertools import chain
-from django.core.serializers.json import DjangoJSONEncoder
 from support.estimated_price import getEstimatedPrice
 
-
-import json
 def home(request):
     return render(request, 'app/home.html')
 
@@ -81,8 +77,8 @@ def apartments(request):
     for shard in shards:
         print shard
         set_db_for_sharding(apartment_query, shard)
-        print apartment_query.all().exclude(user_pk=2)
-        apartments_owned += apartment_query.all().exclude(user_pk=2)
+        print apartment_query.all()
+        apartments_owned += apartment_query.all()
     print('apartments: ',apartments_owned)
     return render(request, 'app/apartments.html', {'apartments': apartments_owned})
 
