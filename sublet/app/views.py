@@ -132,7 +132,7 @@ def profile(request):
     print  ("open_listings:" , open_listings)
 
     #find all my closed listing
-    closed_listings = listing_query.filter(user_pk=request.user.id, is_booked = 1, is_active=1)
+    closed_listings = listing_query.filter(user_pk=request.user.id, is_booked = 1, is_active=0)
     print  ("closed_listings:" , closed_listings)
 
     #find all my bookings
