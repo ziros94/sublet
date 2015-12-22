@@ -3,15 +3,31 @@
     {% if user.is_authenticated %}
         <p>You have already registered, {{ user.username }}</p>
     {% else %}
-    <form method="post" action="{% url 'app:register' %}">
-    {% csrf_token %}
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" />
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" />
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-        <input type="submit" />
-    </form>
+    <div class="container center">
+        <form method="post" action="{% url 'app:register' %}">
+        {% csrf_token %}
+            <div class="row">
+                <div class="offset-s3 col s6">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-s3 col s6">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-s3 col s6">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" />
+                </div>
+            </div>
+
+            <input type="submit" class="waves-effect waves-light btn"/>
+        </form>
+    </div>
+
     {% endif %}
 {% endblock %}

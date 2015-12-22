@@ -1,6 +1,6 @@
 {% extends 'app/base.html' %}
 {% block content %}
-    <div class="container">
+    <div class="container center">
         <form method="post" action="{% url 'app:login' %}">
         {% csrf_token %}
             <div class="row">
@@ -15,12 +15,7 @@
                     <input id="password" type="password" name="password" />
                 </div>
             </div>
-            <div class="row">
-                <div class="offset-s6 col s6">
-                    <input type="submit" />
-                </div>
-            </div>
-
+            <input type="submit" class="waves-effect waves-light btn"/>
         </form>
     </div>
 
