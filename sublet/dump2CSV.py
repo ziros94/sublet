@@ -2,28 +2,29 @@ __author__      = "Emily"
 #sklearn regression module takes in multinamentional array as the featureset, 
 #which can be easily transformed through a csv with existing functions.
 #in order to suffice that, we use this script to export Django queryset to csv. 
-import django
 import sys
+import os
+import django
 import csv
-from django.db.models.loading import get_model
-from app.models import ListingOwned
-from app.models import ApartmentOwned
-
+cur = os.path.dirname(os.path.realpath('__file__'))
+sys.path.append(cur)
+os.environ["DJANGO_SETTINGS_MODULE"] = "sublet.settings"
 django.setup()
-reload(sys)  
-sys.setdefaultencoding('utf-8')
+from app.models import ListingOwned,ApartmentOwned
+from app.sharding import set_user_for_sharding, set_db_for_sharding, get_all_shards
+from app.population import getListings
 
-def get_featureset(n,qs):
-    n = n
-    qs_listing = qs
+
+def get_featureset(n, listings):
     featureset = [[] for x in xrange(n+1)]
-    #find matching apartment through listing
-    i = 1
-    writer = csv.writer(open("./support/dump.csv", 'w'))
-    for record in qs_listing:
-        header = ['sqFt','year','min_from_subway','price']
-        featureset[0] = header
-        listing_id = record[0]
+
+    with open("./support/dump.csv", 'wb') as fp:
+        writer = csv.writer(fp, delimiter=',')
+        writer.writerow(['sqFt','year','min_from_subway','price'])
+        for listing in listings:
+            apartment = listing.apartment
+            row = [str(apartment.sqFt),str(apartment.year), str(apartment.min_from_subway), str(listing.price)]
+            writer.writerow(row)
         '''
         [1]
         in deployment, don't know which db to query listings. Work around this using
@@ -31,8 +32,7 @@ def get_featureset(n,qs):
         set_user_for_sharding(listing_query,user_pk=2)
         listing = listing_query.get(pk=listing_id)
         '''
-        listing = ListingOwned.objects.using('db3').get(pk=listing_id)
-        apartment_id = listing.apartment.id
+
         '''
         [2]
         right now we have one fake listing map to one apartment, but in real world scenario, it is possible (though rare) that within
@@ -44,24 +44,18 @@ def get_featureset(n,qs):
         In the demo stage, it is determined as unnecesary to handle this.
         [3] dont know which db to query Apartments? same as [1] resolve using set_user_for_sharding
         '''
-        apart_info_qs = ApartmentOwned.objects.using('db3').filter(id=apartment_id).values_list('sqFt','year','min_from_subway')
-        apart_info_list = list(apart_info_qs[0])
-        apart_info_list.append(record[1])
-        featureset[i] = apart_info_list
-        i += 1
-    writer.writerows(featureset)
+
 
 def main(n):
-    n = n
-    city = "New York"
     '''
     [4]
     since New York is the only city has enough data to form regression, we are only building regression model for New York in the demo stage
     in development, each city should have its regression model
     [5] don't know which db to query listings? same as [1] resolve it by using set_user_for_sharding
     '''
-    qs_listing = ListingOwned.objects.using('db3').filter(apartment__city=city).values_list('id','price').order_by('id').reverse()[:n]
-    get_featureset(n, qs_listing)
+    listings = getListings()
+    # print listings
+    get_featureset(n, listings)
 
 if __name__ == "__main__":
     main(10000)
