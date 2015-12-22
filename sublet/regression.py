@@ -3,13 +3,14 @@
 # pip install patsy
 #this program reads in a csv, parse it to form featureset, and outputs the regression parameter to screen and a file called "parameters.txt"
 import django
-import csv
-from app.models import ListingOwned
-from app.models import ApartmentOwned
+import sys
+import os
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+cur = os.path.dirname(os.path.realpath('__file__'))
+sys.path.append(cur)
+os.environ["DJANGO_SETTINGS_MODULE"] = "sublet.settings"
 django.setup()
-f = open("./support/parameters.txt", "wb")
 #parse the csv file
 def regression(file_name):
     f = file_name
@@ -29,10 +30,11 @@ def regression(file_name):
     
 def main():  
     intercept, coef_list = regression("./support/dump.csv")
+    f = open("./support/parameters.txt", "wb")
     f.write(str(intercept) + " ")
     for param in coef_list:
         param = format(param, '.4f')
         f.write(str(param) + " " )
- 
+    f.close()
 if __name__ == "__main__":
     main()
