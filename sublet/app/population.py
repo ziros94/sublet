@@ -7,7 +7,7 @@ project_path = os.path.abspath(os.path.join(cur, os.pardir))
 sys.path.append(project_path)
 os.environ["DJANGO_SETTINGS_MODULE"] = "sublet.settings"
 django.setup()
-from app.models import ApartmentOwned, ListingOwned, SubletUser, User
+from app.models import ApartmentOwned, ListingOwned, SubletUser, User, ApartmentWanted, ListingWanted, BookingPlaced
 from random import gauss, choice
 import csv
 from django.db.models import Q
@@ -100,24 +100,35 @@ def createApartments(num_apartments):
     sorted_sqfts = create_sqfts(num_apartments)
     sorted_years = create_years(num_apartments)
     sorted_mins = create_mins_from_subway(num_apartments)
+    list_index = 0
     for i in range(num_apartments):
+        list_index = 0 if list_index == len(streets)-1 else list_index+1
         id = getShardId()
         user = getSubletUser(id)
         sqFt = sorted_sqfts[i]
         year = sorted_years[i]
         min_from_subway = sorted_mins[i]
-        apartment = ApartmentOwned(user_pk=id, street=streets[i], city='New York', state='NY', zip='10009', user=user, sqFt=sqFt, year=year, min_from_subway=min_from_subway)
+        apartment = ApartmentOwned(user_pk=id, street=streets[list_index], city='New York', state='NY', zip='10009', user=user, sqFt=sqFt, year=year, min_from_subway=min_from_subway)
         apartment.save()
 
 
-def createListings(num_listings):
+def createListingsAndBookings(num_listings):
     sorted_prices = create_prices(num_listings)
     for i in range(num_listings):
         id = getShardId()
         apartment = getApartment(id)
-        new_listing = ListingOwned(user_pk=id, title="Warning, this is for regression testing", price=sorted_prices[i], duration=30, apartment=apartment, is_booked=True)
+        new_listing = ListingOwned(user_pk=id, title="Warning, this is for regression testing", price=sorted_prices[i], duration=30, apartment=apartment, is_booked=True, is_active=False)
         new_listing.save()
         print new_listing
+        a = new_listing.apartment
+        s_user = getSubletUser(id)
+        apartment_wanted = ApartmentWanted(user_pk=id, street=a.street, city=a.city, state=a.state, zip=a.zip, user=s_user, sqFt=a.sqFt, year=a.year, min_from_subway=a.min_from_subway)
+        apartment_wanted.save()
+        listing_wanted = ListingWanted(user_pk=id, title=new_listing.title, price=new_listing.price, duration=new_listing.duration, apartment=apartment_wanted)
+        listing_wanted.save()
+        booking_placed = BookingPlaced(user_pk=id, duration=listing_wanted.duration, listing=listing_wanted, user=s_user)
+        booking_placed.save()
+        print booking_placed
 
 def createApartmentCSV():
     apartment_query = ApartmentOwned.objects
@@ -153,9 +164,9 @@ def createListingCSV():
 def main(num_apartments, num_listings):
     createUsers()
     createApartments(num_apartments)
-    createListings(num_listings)
+    createListingsAndBookings(num_listings)
     createApartmentCSV()
     createListingCSV()
 
 if __name__ == '__main__':
-    main(100, 100)
+    main(10000, 10000)
